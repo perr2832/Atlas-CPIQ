@@ -493,10 +493,7 @@ function initMap() {
     let stationClss = event.feature.getProperty("class");
     let stationPvdr = event.feature.getProperty("provider");
     let stationActv = event.feature.getProperty("active");
-    let stationCord = event.feature.getGeometry("coordinates");
-    let stationElev = stationCord[2];
-    console.log(stationElev);
-    console.log(stationLog);
+    console.log('test');
     let stationLat = event.latLng.lat();
     let stationLng = event.latLng.lng();
 
@@ -537,7 +534,6 @@ function initMap() {
       "<strong><big>" +
       stationCode.TC +
       " | " +
-      stationCord +
       "</big></strong><br>" +
           "Latitude: " +
           stationLat +
