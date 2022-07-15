@@ -326,7 +326,6 @@ function initMap() {
     map = new google.maps.Map(document.getElementById("map"), mapProp);
     infoWindow = new google.maps.InfoWindow();
    
-
     // Load GeoJson data.
     let regionLayer = new google.maps.Data({ map: map });
     //regionLayer.loadGeoJson("data/QC_nord_A.json");
@@ -339,8 +338,6 @@ function initMap() {
 
     let markerLayer = new google.maps.Data({ map: map });
     markerLayer.loadGeoJson("data/stations.json");
-
-
 
     // Style GeoJson data.
 
@@ -406,23 +403,6 @@ function initMap() {
             fillColor: fillColor,
             fillOpacity: 1
         }
-        /* if (regionId == 1) {fillColor = "#808000"};
-        if (regionId == 2) {fillColor = "#ffe119"};
-        if (regionId == 3) {fillColor = "#4363d8"};
-        if (regionId == 4) {fillColor = "#fabed4"};
-        if (regionId == 5) {fillColor = "#3cb44b"};
-        if (regionId == 6) {fillColor = "#e6194B"};
-        if (regionId == 7) {fillColor = "#dcbeff"};
-        if (regionId == 8) {fillColor = "#800000"};
-        if (regionId == 9) {fillColor = "#f032e6"};
-        if (regionId == 10) {fillColor = "#42d4f4"};
-        if (regionId == 11) {fillColor = "#aaffc3"};
-        if (regionId == 12) {fillColor = "#fffac8"};
-        if (regionId == 13) {fillColor = "#469990"};
-        if (regionId == 14) {fillColor = "#9A6324"};
-        if (regionId == 15) {fillColor = "#bfef45"};
-        if (regionId == 16) {fillColor = "#911eb4"};
-        if (regionId == 17) {fillColor = "#f58231"}; */
         return {
             fillColor: fillColor,
             fillOpacity: 0,
@@ -586,116 +566,5 @@ function initMap() {
     info.appendChild(newNode);
   });
 
-  var windrosedata = [{
-    r: [2.01, 2.76, 1.45, 0.63, 0.79, 0.95, 1.13, 1.07, 0.83, 1.39, 2.57, 2.72, 2.16, 1.35, 1.25, 1.47],
-    theta: ["nord", "nne", "n-e", "ene", "est", "ese", "s-e", "sse", "sud", "sso", "s-o", "oso", "ouest", "ono", "n-o", "nno"],
-    name: "0-9 km/hr",
-    marker: {color: "#003f5c"},
-    type: "barpolar"
- }, {
-    r: [1.68, 6.34, 4.07, 1.17, 0.75, 0.86, 1.28, 1.93, 0.96, 1.72, 4.04, 6.07, 4.62, 2.13, 1.18, 0.86],
-    theta: ["nord", "nne", "n-e", "ene", "est", "ese", "s-e", "sse", "sud", "sso", "s-o", "oso", "ouest", "ono", "n-o", "nno"],
-    name: "10-19 km/hr",
-    marker: {color: "#58508d"},
-    type: "barpolar"
- }, {
-    r: [0.39, 3.04, 2.89, 0.56, 0.14, 0.26, 0.65, 1.06, 0.20, 0.50, 2.46, 5.54, 3.82, 1.35, 0.41, 0.20],
-    theta: ["nord", "nne", "n-e", "ene", "est", "ese", "s-e", "sse", "sud", "sso", "s-o", "oso", "ouest", "ono", "n-o", "nno"],
-    name: "20-29 km/hr",
-    marker: {color: "#bc5090"},
-    type: "barpolar"
- }, {
-    r: [0.06, 0.81, 1.03, 0.16, 0.01, 0.04, 0.26, 0.27, 0.03, 0.13, 1.23, 2.91, 1.81, 0.52, 0.10, 0.03],
-    theta: ["nord", "nne", "n-e", "ene", "est", "ese", "s-e", "sse", "sud", "sso", "s-o", "oso", "ouest", "ono", "n-o", "nno"],
-    name: "30-39 km/hr",
-    marker: {color: "#ff6361"},
-    type: "barpolar"
- }, {
-    r: [0.02, 0.29, 0.40, 0.05, 0.00, 0.00, 0.02, 0.06, 0.00, 0.03, 0.38, 1.03, 0.50, 0.12, 0.02, 0.00],
-    theta: ["nord", "nne", "n-e", "ene", "est", "ese", "s-e", "sse", "sud", "sso", "s-o", "oso", "ouest", "ono", "n-o", "nno"],
-    name: "40+ km/hr",
-    marker: {color: "#ffa600"},
-    type: "barpolar"
-  }
-]
-var layout = {
- title: "Vent soutenu à CYUL (7025250)",
- font: {size: 16},
- legend: {
-    font: {size: 14}, 
-    x: 0.63, 
-    y: 0.2
- },
- polar: {
-    barmode: "stack",
-    bargap: 0,
-    domain: {x: [0.27, 0.57]},
-    angularaxis: {direction: "clockwise", ticklabelstep: 2},
-    radialaxis: { 
-       ticks: "", 
-       range: [0, 20],
-       ticksuffix: "%",
-       tickfont: {size: 12},
-       tickangle: 90,
-       tickvals: [5, 10, 15, 20],
-       side: "counterclockwise",
-       angle: 90
-       },
-    },
-    annotations: [{
-      text: "hiver (DJF)",
-      font: {size: 16},
-      showarrow: false,
-      x: 0.78,
-      y: 0.92
-      }, {
-      text: "années: 1953–2013",
-      font: {size: 12},
-      showarrow: false,
-      x: 0.78,
-      y: 0.84
-      }, {
-      text: "obs.: 101 884",
-      font: {size: 12},
-      showarrow: false,
-      x: 0.78,
-      y: 0.78
-    }
- ]
-}
-
-Plotly.newPlot("myDiv", windrosedata, layout)
-
- /*  // Station code when hovering over marker.
-  regionLayer.addListener("mouseover", (event) => {
-    infoWindow.setContent(
-        "<b>" + event.feature.getProperty("munName") + "</b>"
-    );
-    infoWindow.setPosition(event.latLng);
-    infoWindow.setOptions({ pixelOffset: new google.maps.Size(0, -10) });
-    infoWindow.open(map);
-    //marker.setIcon(stationIcon2);
-});
-map.data.addListener("mouseout", () => {
-    infoWindow.close();
-    //marker.setIcon(stationIcon);
-}); */
-
-  google.maps.event.addDomListener(window, "load", initMap);
-}
-
-function StationSelection()  
-{  
-    var checkboxes = document.getElementsByName("access");  
-    var numberOfCheckedItems = 0;  
-    for(var i = 0; i < checkboxes.length; i++)  
-    {  
-        if(checkboxes[i].checked)  
-            numberOfCheckedItems++;  
-    }  
-    if(numberOfCheckedItems > 2)  
-    {  
-        alert("You can't select more than two favorite pets!");  
-        return false;  
-    }  
+google.maps.event.addEventListener(window, "load", initMap);
 }
