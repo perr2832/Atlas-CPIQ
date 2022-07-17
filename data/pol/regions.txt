@@ -1,77 +1,77 @@
 [71] Ouest du Québec
-  01 - MTL   457 KB   Montréal métropolitain - Laval
-  02 - VAU   484 KB   Vaudreuil - Soulanges - Huntingdon
-  03 - RCH            Vallée du Richelieu - Saint-Hyacinthe
-  04 - LAN            Lanaudière
-  05 - MIR            Lachute - Saint-Jérôme
-  06 - LAU            Laurentides
-  07 - TRB            Parc du Mont-Tremblant - Saint-Michel-des-Saints
-  08 - MLR            Mont-Laurier
-  09 - VER            Réserve faunique La Vérendrye
-  10 - HTG            Haute-Gatineau - Lièvre - Papineau
-  11 - PON            Pontiac
-  12 - TMG            Témiscamingue
-  13 - ABI            Abitibi
-  14 - PAR            Parent - Réservoir Gouin
-  15 - MTG            Matagami
-  16 - WKG            Waskaganish
+  01_YUL   1299 KB    Montréal métropolitain - Laval
+  02_WBZ    484 KB    Vaudreuil - Soulanges - Huntingdon
+  03_WIZ    501 KB    Vallée du Richelieu - Saint-Hyacinthe
+  04_WEW              Lanaudière
+  05_YMX              Lachute - Saint-Jérôme
+  06_WJT              Laurentides
+  07_MMY              Parc du Mont-Tremblant - Saint-Michel-des-Saints
+  08_MLR              Mont-Laurier
+  09_MDO              Réserve faunique La Vérendrye
+  10_WMJ              Haute-Gatineau - Lièvre - Papineau
+  11_YWA              Pontiac
+  12_WRC              Témiscamingue
+  13_YUY              Abitibi
+  14_WPK              Parent - Réservoir Gouin
+  15_YNM              Matagami
+  16_YKQ              Waskaganish
 
 [72] Nord du Québec
-  17 - BJM            Baie James et rivière La Grande
-  18 - LGQ            LG Quatre - Laforge et Fontanges
-  19 - SCH            Schefferville
-  20 - FER            Fermont
+  17_YGL              Baie James et rivière La Grande
+  18_YAH              LG Quatre - Laforge et Fontanges
+  19_YKL              Schefferville
+  20_YWK              Fermont
 
 [73] Centre du Québec
-  21 - EST            Estrie
-  22 - BCE            Beauce
-  23 - DRM            Drummondville - Bois-Francs
-  24 - MAU            Mauricie
-  25 - QUE            Québec
-  26 - MMY            Montmagny - L'Islet
-  27 - CHA            Charlevoix
-  28 - LTQ            La Tuque
-  29 - RFL            Réserve faunique des Laurentides
-  30 - SAG            Saguenay
-  31 - LSJ            Lac-Saint-Jean
-  32 - CHI            Chibougamau
+  21_YSC              Estrie
+  22_WHV              Beauce
+  23_DRM              Drummondville - Bois-Francs
+  24_YRQ              Mauricie
+  25_YQB              Québec
+  26_MMY              Montmagny - L'Islet
+  27_CHR              Charlevoix
+  28_WDQ              La Tuque
+  29_WPD              Réserve faunique des Laurentides
+  30_YBG              Saguenay
+  31_YRJ              Lac-Saint-Jean
+  32_YMT              Chibougamau
 
 [74] Est du Québec
 
-  33 - KAM            Kamouraska - Rivière-du-Loup - Trois-Pistoles
-  34 - TMA            Témiscouata
-  35 - RIM            Rimouski - Mont-Joli
-  36 - AMQ            Amqui - vallée de la Matapédia
-  37 - MTN            Matane 
-  38 - SAM            Sainte-Anne-des-Monts - Grande-Vallée
-  39 - PNG            Parc national de la Gaspésie - Murdochville
-  40 - RST            Restigouche - Bonaventure
-  41 - NEW            New Carlisle - Chandler
-  42 - FOR            Parc national de Forillon - Gaspé - Percé
-  43 - MNC            Rivière Manicouagan
-  44 - ESC            Les Escoumins - Forestville
-  45 - BCM            Baie-Comeau
-  46 - SPT            Sept-Îles - Port-Cartier
-  47 - MNG            Minganie
-  48 - ANT            Anticosti
-  49 - NAT            Natashquan
-  50 - CHV            Chevery
-  51 - BLS            Blanc-Sablon
+  33_WNH              Kamouraska - Rivière-du-Loup - Trois-Pistoles
+  34_TMA              Témiscouata
+  35_YYY              Rimouski - Mont-Joli
+  36_GCL              Amqui - vallée de la Matapédia
+  37_WSG              Matane 
+  38_WSF              Sainte-Anne-des-Monts - Grande-Vallée
+  39_PNG              Parc national de la Gaspésie - Murdochville
+  40_MJN              Restigouche - Bonaventure
+  41_WOC              New Carlisle - Chandler
+  42_YGP              Parc national de Forillon - Gaspé - Percé
+  43_MNC              Rivière Manicouagan
+  44_MGZ              Les Escoumins - Forestville
+  45_YBC              Baie-Comeau
+  46_YZV              Sept-Îles - Port-Cartier
+  47_YGV              Minganie
+  48_WBY              Anticosti
+  49_YNA              Natashquan
+  50_WHV              Chevery
+  51_YBX              Blanc-Sablon
 
 [75] Extrême Nord du Québec
 
-  52 - KJR            Kuujjuarapik
-  53 - SNK            Sanikiluak
-  54 - UMQ            Umiujaq
-  55 - INK            Inukjuak
-  56 - PUV            Puvirnituq
-  57 - AKU            Akulivik
-  58 - IVU            Ivujivik
-  59 - SLT            Salluit
-  60 - KGQ            Kangiqsujuaq
-  61 - QQQ            Quaqtaq    
-  62 - KSK            Kangirsuk
-  63 - AUP            Aupaluk
-  64 - TSJ            Tasiujaq
-  65 - KJQ            Kuujjuaq
-  66 - KLJ            Kangiqsualujjuaq
+  52_YGW              Kuujjuarapik
+  53_YSK              Sanikiluak
+  54_YMU              Umiujaq
+  55_YPH              Inukjuak
+  56_YPX              Puvirnituq
+  57_YKO              Akulivik
+  58_YIK              Ivujivik
+  59_YZG              Salluit
+  60_YKG              Kangiqsujuaq
+  61_YHA              Quaqtaq    
+  62_YAS              Kangirsuk
+  63_YLA              Aupaluk
+  64_YTQ              Tasiujaq
+  65_YVP              Kuujjuaq
+  66_YLU              Kangiqsualujjuaq
