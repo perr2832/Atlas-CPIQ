@@ -6,8 +6,8 @@ initMap();
 function initMap() {
   // Map settings.
   let mapProp = {
-    zoom: 10,
-    center: { lat: 45.5, lng: -74 },
+    zoom: 9,
+    center: { lat: 46, lng: -74.25 },
     mapTypeId: "terrain",
     disableDefaultUI: true,
     styles: [
@@ -329,11 +329,12 @@ function initMap() {
   // Load GeoJson data.
   // This method is asynchronous. Therefore we have to use the optional callback feature to use the forEach method later on.
   let regionLayer = new google.maps.Data({ map: map });
+  regionLayer.loadGeoJson("data/pol/06_WJT.json")
   regionLayer.loadGeoJson("data/pol/05_YMX.json")
-  //regionLayer.loadGeoJson("data/pol/04_WEW.json")
-  //regionLayer.loadGeoJson("data/pol/01_YUL.json")
-  //regionLayer.loadGeoJson("data/pol/02_WBZ.json");
-  //regionLayer.loadGeoJson("data/pol/03_WIZ.json");
+  regionLayer.loadGeoJson("data/pol/04_WEW.json")
+  regionLayer.loadGeoJson("data/pol/01_YUL.json")
+  regionLayer.loadGeoJson("data/pol/02_WBZ.json");
+  regionLayer.loadGeoJson("data/pol/03_WIZ.json");
 
   let regionLayer2 = new google.maps.Data({ map: map });
   regionLayer2.loadGeoJson("data/public_zones.json");
