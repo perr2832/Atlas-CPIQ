@@ -4,7 +4,7 @@
   03_WIZ    501 KB    Vallée du Richelieu - Saint-Hyacinthe
   04_WEW    445 KB    Lanaudière
   05_YMX    240 KB    Lachute - Saint-Jérôme
-  06_WJT              Laurentides
+  06_WJT    193 KB    Laurentides
   07_MMY              Parc du Mont-Tremblant - Saint-Michel-des-Saints
   08_MLR              Mont-Laurier
   09_MDO              Réserve faunique La Vérendrye
