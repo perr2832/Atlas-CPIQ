@@ -1,15 +1,16 @@
 let map, infoWindow;
+window.addEventListener("load", initMap);
 initMap();
 
 // Initialize Google Map.
 function initMap() {
-    // Map settings.
-    let mapProp = {
-        zoom: 7,
-        center: { lat: 48, lng: -71 },
-        mapTypeId: "terrain",
-        disableDefaultUI: true,
-        styles: [
+  // Map settings.
+  let mapProp = {
+    zoom: 9,
+    center: { lat: 46, lng: -73.5 },
+    mapTypeId: "terrain",
+    disableDefaultUI: true,
+    styles: [
             {
               "elementType": "geometry",
               "stylers": [
@@ -321,97 +322,101 @@ function initMap() {
                 }
               ]
             }
-          ]
-    };
-    map = new google.maps.Map(document.getElementById("map"), mapProp);
-    infoWindow = new google.maps.InfoWindow();
+    ]};
+  map = new google.maps.Map(document.getElementById("map"), mapProp);
+  infoWindow = new google.maps.InfoWindow();
    
-    // Load GeoJson data.
-    let regionLayer = new google.maps.Data({ map: map });
-    //regionLayer.loadGeoJson("data/QC_nord_A.json");
-    //regionLayer.loadGeoJson("data/QC_nord_B.json");
-    //regionLayer.loadGeoJson("data/QC_est.json");
-    //regionLayer.loadGeoJson("data/QC_ouest.json");
+  // Load GeoJson data.
+  // This method is asynchronous. Therefore we have to use the optional callback feature to use the forEach method later on.
+  let regionLayer = new google.maps.Data({ map: map });
+  regionLayer.loadGeoJson("data/pol/04_WEW.json")
+  regionLayer.loadGeoJson("data/pol/01_YUL.json")
+  regionLayer.loadGeoJson("data/pol/02_WBZ.json");
+  regionLayer.loadGeoJson("data/pol/03_WIZ.json");
+  //regionLayer.loadGeoJson("data/QC_nord_B.json");
+  //regionLayer.loadGeoJson("data/QC_est.json");
+  //regionLayer.loadGeoJson("data/QC_ouest.json");
 
-    let regionLayer2 = new google.maps.Data({ map: map });
-    regionLayer2.loadGeoJson("data/public_zones.json");
+  let regionLayer2 = new google.maps.Data({ map: map });
+  regionLayer2.loadGeoJson("data/public_zones.json");
 
-    let markerLayer = new google.maps.Data({ map: map });
-    markerLayer.loadGeoJson("data/stations.json");
+  //let markerLayer = new google.maps.Data({ map: map });
+  //markerLayer.loadGeoJson("data/stations.json");
 
-    // Style GeoJson data.
-
-    // Set style for colored municipality polygons and points.
-    regionLayer.setStyle(function(feature) {
-        let munName = feature.getProperty('munName')
-        let munType = feature.getProperty('munType')
-        let pop     = feature.getProperty('pop')
-
-        let scale, fillColor, fillOpacity, strokeWeight, symbol
-        if (munType == "G" || munType == "GR" || munType == "NO" || munType == "VC" || munType == "TK" || munType == "TI") {
-            fillOpacity = 0.33,
-            strokeWeight = 0.5
+  // Style GeoJson data.
+  // Set style for colored municipality polygons and points.
+  regionLayer.setStyle(function(feature) {
+    munName = feature.getProperty('munName')
+    pop     = feature.getProperty('pop')
+    //regionLayer.forEach(function(feature) {
+        var bounds = [];
+        feature.getGeometry().forEachLatLng(function(path) {
+          bounds.push(path)
+        })
+        var area = google.maps.geometry.spherical.computeArea(bounds)/1e6
+        var density = pop / area
+        
+        if (density >= 10000) {
+          scale = 8,
+          fillColor = "#800000"
+        } else if (density >= 5000) {
+          scale = 7.5,
+          fillColor = "#921f00"
+        } else if (density >= 2000) {
+          scale = 7,
+          fillColor = "#a33500"
+        } else if (density >= 1000) {
+          scale = 6.5,
+          fillColor = "#b44a00"
+        } else if (density >= 500) {
+          scale = 6,
+          fillColor = "#c35f00"
+          console.log("500 to 1000")
+          console.log(munName)
+        } else if (density >= 200) {
+          scale = 5.5,
+          fillColor = "#d07500"
+        } else if (density >= 100) {
+          scale = 5,
+          fillColor = "#dc8b00"
+        } else if (density >= 50) {
+          scale = 4.5,
+          fillColor = "#e7a100"
+        } else if (density >= 20) {
+          scale = 4,
+          fillColor = "#f0b800"
+        } else if (density >= 10) {
+          scale = 3.5,
+          fillColor = "#f7cf00"
+        } else if (density >= 5) {
+          scale = 3,
+          fillColor = "#fce700"
+        } else if (density >= 2) {
+          scale = 2.5,
+          fillColor = "#ffff00"
         } else {
-            fillOpacity = 0.67,
-            strokeWeight = 1
-        }
-        if (pop >= 1000000) {
-            scale = 8,
-            fillColor = "#800000"
-        } else if (pop >= 500000) {
-            scale = 7.5,
-            fillColor = "#921f00"
-        } else if (pop >= 200000) {
-            scale = 7,
-            fillColor = "#a33500"
-        } else if (pop >= 100000) {
-            scale = 6.5,
-            fillColor = "#b44a00"
-        } else if (pop >= 50000) {
-            scale = 6,
-            fillColor = "#c35f00"
-        } else if (pop >= 20000) {
-            scale = 5.5,
-            fillColor = "#d07500"
-        } else if (pop >= 10000) {
-            scale = 5,
-            fillColor = "#dc8b00"
-        } else if (pop >= 5000) {
-            scale = 4.5,
-            fillColor = "#e7a100"
-        } else if (pop >= 2000) {
-            scale = 4,
-            fillColor = "#f0b800"
-        } else if (pop >= 1000) {
-            scale = 3.5,
-            fillColor = "#f7cf00"
-        } else if (pop >= 500) {
-            scale = 3,
-            fillColor = "#fce700"
-        } else if (pop >= 200) {
-            scale = 2.5,
-            fillColor = "#ffff00"
-        } else {
-            scale = 0,
-            fillColor = "yellow"
-        }
-        symbol = {
-            path: google.maps.SymbolPath.CIRCLE,
-            scale: scale,
-            strokeColor: "black",
-            strokeWeight: 1,
-            fillColor: fillColor,
-            fillOpacity: 1
-        }
-        return {
-            fillColor: fillColor,
-            fillOpacity: 0,
-            strokeColor: fillColor,
-            strokeOpacity: 0,
-            strokeWeight: 1,
-            icon: symbol,
-            title: munName
-        }  
+          scale = 0,
+          fillColor = "yellow"
+        } 
+      //})
+        
+      symbol = {
+        path: google.maps.SymbolPath.CIRCLE,
+        scale: 3,
+        strokeColor: "black",
+        strokeWeight: 1,
+        fillColor: "cyan",
+        fillOpacity: 1
+      } 
+      return {
+        fillColor: fillColor,
+        fillOpacity: 0.67,
+        strokeColor: "black",
+        strokeOpacity: 1,
+        strokeWeight: 1,
+        icon: symbol,
+        title: munName
+      }  
     });
 
     // Set style for ECCC regions.
@@ -425,7 +430,7 @@ function initMap() {
         }
     })
 
-    markerLayer.setStyle(function(feature) {
+    /* markerLayer.setStyle(function(feature) {
         let stName     = feature.getProperty('name')
         let stProvider = feature.getProperty('provider')
         let stActive   = feature.getProperty('active')
@@ -467,12 +472,26 @@ function initMap() {
             icon: symbol,
             title: stName
         }
-    })
+    }) */
 
     // Get marker info upon click to display in left menu
     regionLayer.addListener("click", (event) => {
+      regionLayer.revertStyle()
+      regionLayer.overrideStyle(event.feature, {
+        strokeColor: 'red',
+        strokeWeight: 3,
+        zIndex: 10
+      });
         let munName = event.feature.getProperty("munName");
         let countyId = event.feature.getProperty("countyId");
+        let pop = event.feature.getProperty("pop")
+        var bounds = [];
+        event.feature.getGeometry().forEachLatLng(function(path) {
+          bounds.push(path)
+        })
+        var area = google.maps.geometry.spherical.computeArea(bounds)/1e6
+        var density = pop / area
+        console.log(density)
 
         // Clear previous info in bar
         var div = document.getElementById("info");
@@ -482,7 +501,7 @@ function initMap() {
 
         // Insert new info in bar
         var newNode = document.createElement("div");
-        newNode.innerHTML = "<strong><big>" + munName + " | " + countyId
+        newNode.innerHTML = "<strong><big>" + munName + " | " + countyId + "<br>" + pop;
         info.appendChild(newNode);
     }); 
 
@@ -493,7 +512,6 @@ function initMap() {
     let stationClss = event.feature.getProperty("class");
     let stationPvdr = event.feature.getProperty("provider");
     let stationActv = event.feature.getProperty("active");
-    console.log('test');
     let stationLat = event.latLng.lat();
     let stationLng = event.latLng.lng();
 
@@ -562,5 +580,5 @@ function initMap() {
     info.appendChild(newNode);
   });
 
-google.maps.event.addEventListener(window, "load", initMap);
+
 }

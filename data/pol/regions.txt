@@ -2,7 +2,7 @@
   01_YUL   1299 KB    Montréal métropolitain - Laval
   02_WBZ    484 KB    Vaudreuil - Soulanges - Huntingdon
   03_WIZ    501 KB    Vallée du Richelieu - Saint-Hyacinthe
-  04_WEW              Lanaudière
+  04_WEW    445 KB    Lanaudière
   05_YMX              Lachute - Saint-Jérôme
   06_WJT              Laurentides
   07_MMY              Parc du Mont-Tremblant - Saint-Michel-des-Saints
