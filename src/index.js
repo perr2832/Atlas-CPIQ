@@ -6,8 +6,8 @@ initMap();
 function initMap() {
   // Map settings.
   let mapProp = {
-    zoom: 9,
-    center: { lat: 46, lng: -73.5 },
+    zoom: 10,
+    center: { lat: 45.5, lng: -74 },
     mapTypeId: "terrain",
     disableDefaultUI: true,
     styles: [
@@ -329,13 +329,11 @@ function initMap() {
   // Load GeoJson data.
   // This method is asynchronous. Therefore we have to use the optional callback feature to use the forEach method later on.
   let regionLayer = new google.maps.Data({ map: map });
-  regionLayer.loadGeoJson("data/pol/04_WEW.json")
-  regionLayer.loadGeoJson("data/pol/01_YUL.json")
-  regionLayer.loadGeoJson("data/pol/02_WBZ.json");
-  regionLayer.loadGeoJson("data/pol/03_WIZ.json");
-  //regionLayer.loadGeoJson("data/QC_nord_B.json");
-  //regionLayer.loadGeoJson("data/QC_est.json");
-  //regionLayer.loadGeoJson("data/QC_ouest.json");
+  regionLayer.loadGeoJson("data/pol/05_YMX.json")
+  //regionLayer.loadGeoJson("data/pol/04_WEW.json")
+  //regionLayer.loadGeoJson("data/pol/01_YUL.json")
+  //regionLayer.loadGeoJson("data/pol/02_WBZ.json");
+  //regionLayer.loadGeoJson("data/pol/03_WIZ.json");
 
   let regionLayer2 = new google.maps.Data({ map: map });
   regionLayer2.loadGeoJson("data/public_zones.json");
@@ -371,8 +369,6 @@ function initMap() {
         } else if (density >= 500) {
           scale = 6,
           fillColor = "#c35f00"
-          console.log("500 to 1000")
-          console.log(munName)
         } else if (density >= 200) {
           scale = 5.5,
           fillColor = "#d07500"
@@ -476,7 +472,8 @@ function initMap() {
 
     // Get marker info upon click to display in left menu
     regionLayer.addListener("click", (event) => {
-      regionLayer.revertStyle()
+      console.log("test")
+      regionLayer.revertStyle();
       regionLayer.overrideStyle(event.feature, {
         strokeColor: 'red',
         strokeWeight: 3,
