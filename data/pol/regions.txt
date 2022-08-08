@@ -5,33 +5,33 @@
   04_WEW    445 KB    Lanaudière
   05_YMX    240 KB    Lachute - Saint-Jérôme
   06_WJT    193 KB    Laurentides
-  07_MMY              Parc du Mont-Tremblant - Saint-Michel-des-Saints
-  08_MLR              Mont-Laurier
-  09_MDO              Réserve faunique La Vérendrye
-  10_WMJ              Haute-Gatineau - Lièvre - Papineau
-  11_YWA              Pontiac
-  12_WRC              Témiscamingue
-  13_YUY              Abitibi
-  14_WPK              Parent - Réservoir Gouin
-  15_YNM              Matagami
-  16_YKQ              Waskaganish
+  07_MMY    207 KB    Parc du Mont-Tremblant - Saint-Michel-des-Saints
+  08_MLR    203 KB    Mont-Laurier
+  09_MDO    228 KB    Réserve faunique La Vérendrye
+  10_WMJ    557 KB    Haute-Gatineau - Lièvre - Papineau
+  11_YWA    276 KB    Pontiac
+  12_WRC    398 KB    Témiscamingue
+  13_YUY    587 KB    Abitibi
+  14_WPK    540 KB    Parent - Réservoir Gouin
+  15_YNM   1167 KB    Matagami
+  16_YKQ     28 KB    Waskaganish
 
 [72] Nord du Québec
-  17_YGL              Baie James et rivière La Grande
+  17_YGL    311 KB    Baie James et rivière La Grande
   18_YAH              LG Quatre - Laforge et Fontanges
-  19_YKL              Schefferville
-  20_YWK              Fermont
+  19_YKL    291 KB    Schefferville
+  20_YWK    152 KB    Fermont
 
 [73] Centre du Québec
-  21_YSC              Estrie
-  22_WHV              Beauce
-  23_DRM              Drummondville - Bois-Francs
-  24_YRQ              Mauricie
-  25_YQB              Québec
-  26_MMY              Montmagny - L'Islet
-  27_CHR              Charlevoix
-  28_WDQ              La Tuque
-  29_WPD              Réserve faunique des Laurentides
+  21_YSC   1011 KB    Estrie
+  22_WHV    472 KB    Beauce
+  23_MLU    571 KB    Drummondville - Bois-Francs
+  24_YRQ    507 KB    Mauricie
+  25_YQB   1780 KB    Québec
+  26_MMY    166 KB    Montmagny - L'Islet
+  27_CHR    108 KB    Charlevoix
+  28_WDQ    184 KB    La Tuque
+  29_WPD    158 KB    Réserve faunique des Laurentides
   30_YBG              Saguenay
   31_YRJ              Lac-Saint-Jean
   32_YMT              Chibougamau
