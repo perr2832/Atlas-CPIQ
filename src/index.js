@@ -6,8 +6,8 @@ initMap();
 function initMap() {
   // Map settings.
   let mapProp = {
-    zoom: 9,
-    center: { lat: 46, lng: -74.25 },
+    zoom: 8,
+    center: { lat: 48.4, lng: -70.8 },
     mapTypeId: "terrain",
     disableDefaultUI: true,
     styles: [
@@ -329,12 +329,36 @@ function initMap() {
   // Load GeoJson data.
   // This method is asynchronous. Therefore we have to use the optional callback feature to use the forEach method later on.
   let regionLayer = new google.maps.Data({ map: map });
+  
+  regionLayer.loadGeoJson("data/pol/30_YBG.json")
+  /*regionLayer.loadGeoJson("data/pol/29_WPD.json")
+  regionLayer.loadGeoJson("data/pol/28_WDQ.json")
+  regionLayer.loadGeoJson("data/pol/27_CHR.json")
+  regionLayer.loadGeoJson("data/pol/26_MMY.json")
+  regionLayer.loadGeoJson("data/pol/25_YQB.json")
+  regionLayer.loadGeoJson("data/pol/24_YRQ.json")
+  regionLayer.loadGeoJson("data/pol/23_MLU.json")
+  regionLayer.loadGeoJson("data/pol/22_WHV.json")
+  regionLayer.loadGeoJson("data/pol/21_YSC.json")
+  regionLayer.loadGeoJson("data/pol/20_YWK.json")
+  regionLayer.loadGeoJson("data/pol/19_YKL.json")
+  regionLayer.loadGeoJson("data/pol/17_YGL.json")
+  regionLayer.loadGeoJson("data/pol/16_YKQ.json")
+  regionLayer.loadGeoJson("data/pol/15_YNM.json")
+  regionLayer.loadGeoJson("data/pol/14_WPK.json")
+  regionLayer.loadGeoJson("data/pol/13_YUY.json")
+  regionLayer.loadGeoJson("data/pol/12_WRC.json")
+  regionLayer.loadGeoJson("data/pol/11_YWA.json")
+  regionLayer.loadGeoJson("data/pol/10_WMJ.json")
+  regionLayer.loadGeoJson("data/pol/09_MDO.json")
+  regionLayer.loadGeoJson("data/pol/08_MLR.json")
+  regionLayer.loadGeoJson("data/pol/07_MMY.json")
   regionLayer.loadGeoJson("data/pol/06_WJT.json")
   regionLayer.loadGeoJson("data/pol/05_YMX.json")
   regionLayer.loadGeoJson("data/pol/04_WEW.json")
-  regionLayer.loadGeoJson("data/pol/01_YUL.json")
-  regionLayer.loadGeoJson("data/pol/02_WBZ.json");
-  regionLayer.loadGeoJson("data/pol/03_WIZ.json");
+  regionLayer.loadGeoJson("data/pol/03_WIZ.json")
+  regionLayer.loadGeoJson("data/pol/02_WBZ.json")
+  regionLayer.loadGeoJson("data/pol/01_YUL.json")*/
 
   let regionLayer2 = new google.maps.Data({ map: map });
   regionLayer2.loadGeoJson("data/public_zones.json");
@@ -347,85 +371,102 @@ function initMap() {
   regionLayer.setStyle(function(feature) {
     munName = feature.getProperty('munName')
     pop     = feature.getProperty('pop')
-    //regionLayer.forEach(function(feature) {
-        var bounds = [];
-        feature.getGeometry().forEachLatLng(function(path) {
-          bounds.push(path)
-        })
-        var area = google.maps.geometry.spherical.computeArea(bounds)/1e6
-        var density = pop / area
-        
-        if (density >= 10000) {
-          scale = 8,
-          fillColor = "#800000"
-        } else if (density >= 5000) {
-          scale = 7.5,
-          fillColor = "#921f00"
-        } else if (density >= 2000) {
-          scale = 7,
-          fillColor = "#a33500"
-        } else if (density >= 1000) {
-          scale = 6.5,
-          fillColor = "#b44a00"
-        } else if (density >= 500) {
-          scale = 6,
-          fillColor = "#c35f00"
-        } else if (density >= 200) {
-          scale = 5.5,
-          fillColor = "#d07500"
-        } else if (density >= 100) {
-          scale = 5,
-          fillColor = "#dc8b00"
-        } else if (density >= 50) {
-          scale = 4.5,
-          fillColor = "#e7a100"
-        } else if (density >= 20) {
-          scale = 4,
-          fillColor = "#f0b800"
-        } else if (density >= 10) {
-          scale = 3.5,
-          fillColor = "#f7cf00"
-        } else if (density >= 5) {
-          scale = 3,
-          fillColor = "#fce700"
-        } else if (density >= 2) {
-          scale = 2.5,
-          fillColor = "#ffff00"
-        } else {
-          scale = 0,
-          fillColor = "yellow"
-        } 
-      //})
-        
-      symbol = {
-        path: google.maps.SymbolPath.CIRCLE,
-        scale: 3,
-        strokeColor: "black",
-        strokeWeight: 1,
-        fillColor: "cyan",
-        fillOpacity: 1
-      } 
-      return {
-        fillColor: fillColor,
-        fillOpacity: 0.67,
-        strokeColor: "black",
-        strokeOpacity: 1,
-        strokeWeight: 1,
-        icon: symbol,
-        title: munName
-      }  
-    });
-
-    // Set style for ECCC regions.
-    regionLayer2.setStyle(function(feature) {
-        return {
-            fillColor: "white",
-            fillOpacity: 0,
-            strokeColor: "black",
-            strokeOpacity: 1,
-            strokeWeight: 2
-        }
+    var bounds = [];
+    feature.getGeometry().forEachLatLng(function(path) {
+      bounds.push(path)
     })
+    var area = google.maps.geometry.spherical.computeArea(bounds)/1e6
+    var density = pop / area
+    let fillOpacity = 0.75
+    var scale
+        
+    if (density >= 10000) {
+      fillColor = "#800000"
+    } else if (density >= 5000) {
+      fillColor = "#921f00"
+    } else if (density >= 2000) {
+      fillColor = "#a33500"
+    } else if (density >= 1000) {
+      fillColor = "#b44a00"
+    } else if (density >= 500) {
+      fillColor = "#c35f00"
+    } else if (density >= 200) {
+      fillColor = "#d07500"
+    } else if (density >= 100) {
+      fillColor = "#dc8b00"
+    } else if (density >= 50) {
+      fillColor = "#e7a100"
+    } else if (density >= 20) {
+      fillColor = "#f0b800"
+    } else if (density >= 10) {
+      fillColor = "#f7cf00"
+    } else if (density >= 5) {
+      fillColor = "#fce700"
+    } else if (density >= 2) {
+      fillColor = "#ffff00",
+      fillOpacity = 0.5
+    } else {
+      fillColor = "yellow",
+      fillOpacity = 0.25
+    } 
+
+    if (pop >= 1000000) {
+      scale = 8
+    } else if (pop >= 500000) {
+      scale = 7.5
+    } else if (pop >= 200000) {
+      scale = 7
+    } else if (pop >= 100000) {
+      scale = 6.5
+    } else if (pop >= 50000) {
+      scale = 6
+    } else if (pop >= 20000) {
+      scale = 5.5
+    } else if (pop >= 10000) {
+      scale = 5
+    } else if (pop >= 5000) {
+      scale = 4.5
+    } else if (pop >= 2000) {
+      scale = 4
+    } else if (pop >= 1000) {
+      scale = 3.5
+    } else if (pop >= 500) {
+      scale = 3
+    } else if (pop >= 200) {
+      scale = 2.5
+    } else {
+      scale = 2
+    } 
+        
+    symbol = {
+      path: google.maps.SymbolPath.CIRCLE,
+      scale: scale,
+      strokeColor: "black",
+      strokeWeight: 1,
+      fillColor: "cyan",
+      fillOpacity: 0.7
+    } 
+    return {
+      fillColor: fillColor,
+      fillOpacity: fillOpacity,
+      strokeColor: "black",
+      strokeOpacity: 1,
+      strokeWeight: 1,
+      icon: symbol,
+      title: munName
+    }  
+  });
+
+  // Set style for ECCC regions.
+  regionLayer2.setStyle(function(feature) {
+      return {
+          fillColor: "white",
+          fillOpacity: 0,
+          strokeColor: "black",
+          strokeOpacity: 1,
+          strokeWeight: 3
+      }
+  })
 
     /* markerLayer.setStyle(function(feature) {
         let stName     = feature.getProperty('name')
