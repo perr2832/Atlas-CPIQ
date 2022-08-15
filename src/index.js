@@ -6,8 +6,8 @@ initMap();
 function initMap() {
   // Map settings.
   let mapProp = {
-    zoom: 8,
-    center: { lat: 48.4, lng: -70.8 },
+    zoom: 6,
+    center: { lat: 58, lng: -72 },
     mapTypeId: "terrain",
     disableDefaultUI: true,
     styles: [
@@ -329,9 +329,44 @@ function initMap() {
   // Load GeoJson data.
   // This method is asynchronous. Therefore we have to use the optional callback feature to use the forEach method later on.
   let regionLayer = new google.maps.Data({ map: map });
-  
+
+  regionLayer.loadGeoJson("data/pol/66_YLU.json")
+  regionLayer.loadGeoJson("data/pol/65_YVP.json")
+  regionLayer.loadGeoJson("data/pol/64_YTQ.json")
+  regionLayer.loadGeoJson("data/pol/63_YLA.json")
+  regionLayer.loadGeoJson("data/pol/62_YAS.json")
+  regionLayer.loadGeoJson("data/pol/61_YHA.json")
+  regionLayer.loadGeoJson("data/pol/60_YKG.json")
+  regionLayer.loadGeoJson("data/pol/59_YZG.json")
+  regionLayer.loadGeoJson("data/pol/58_YIK.json")
+  regionLayer.loadGeoJson("data/pol/57_YKO.json")
+  regionLayer.loadGeoJson("data/pol/56_YPX.json")
+  regionLayer.loadGeoJson("data/pol/55_YPH.json")
+  regionLayer.loadGeoJson("data/pol/54_YMU.json")
+  regionLayer.loadGeoJson("data/pol/52_YGW.json")
+  regionLayer.loadGeoJson("data/pol/51_YBX.json")
+  regionLayer.loadGeoJson("data/pol/50_WDM.json")
+  regionLayer.loadGeoJson("data/pol/49_YNA.json")
+  regionLayer.loadGeoJson("data/pol/48_WBY.json")
+  regionLayer.loadGeoJson("data/pol/47_YGV.json")
+  regionLayer.loadGeoJson("data/pol/46_YZV.json")
+  regionLayer.loadGeoJson("data/pol/45_YBC.json")
+  regionLayer.loadGeoJson("data/pol/44_MGZ.json")
+  regionLayer.loadGeoJson("data/pol/43_MNC.json")
+  regionLayer.loadGeoJson("data/pol/42_YGP.json")
+  regionLayer.loadGeoJson("data/pol/41_WOC.json")
+  regionLayer.loadGeoJson("data/pol/40_MJN.json")
+  regionLayer.loadGeoJson("data/pol/39_PNG.json")
+  regionLayer.loadGeoJson("data/pol/38_WSF.json")
+  regionLayer.loadGeoJson("data/pol/37_WSG.json")
+  regionLayer.loadGeoJson("data/pol/36_GCL.json")
+  regionLayer.loadGeoJson("data/pol/35_YYY.json")
+  regionLayer.loadGeoJson("data/pol/34_TMA.json")
+  regionLayer.loadGeoJson("data/pol/33_WNH.json")
+  regionLayer.loadGeoJson("data/pol/32_YMT.json")
+  regionLayer.loadGeoJson("data/pol/31_YRJ.json")
   regionLayer.loadGeoJson("data/pol/30_YBG.json")
-  /*regionLayer.loadGeoJson("data/pol/29_WPD.json")
+  regionLayer.loadGeoJson("data/pol/29_WPD.json")
   regionLayer.loadGeoJson("data/pol/28_WDQ.json")
   regionLayer.loadGeoJson("data/pol/27_CHR.json")
   regionLayer.loadGeoJson("data/pol/26_MMY.json")
@@ -358,7 +393,7 @@ function initMap() {
   regionLayer.loadGeoJson("data/pol/04_WEW.json")
   regionLayer.loadGeoJson("data/pol/03_WIZ.json")
   regionLayer.loadGeoJson("data/pol/02_WBZ.json")
-  regionLayer.loadGeoJson("data/pol/01_YUL.json")*/
+  regionLayer.loadGeoJson("data/pol/01_YUL.json")
 
   let regionLayer2 = new google.maps.Data({ map: map });
   regionLayer2.loadGeoJson("data/public_zones.json");
