@@ -1,3 +1,5 @@
+console.log("VS_test")
+
 let map, infoWindow;
 initMap();
 
