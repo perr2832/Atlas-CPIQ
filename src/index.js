@@ -1173,6 +1173,7 @@ function initMap() {
   for (let step = 0; step < 66; step++) {
     regionLayer.loadGeoJson('data/pol/' + region[step] + '.json')
   }
+  regionLayer.loadGeoJson('data/QC_nord.json')
 
   let regionLayer2 = new google.maps.Data({ map: map });
   regionLayer2.loadGeoJson("data/public_zones.json");
@@ -1197,7 +1198,7 @@ function initMap() {
     var density = pop / area
 
     let fillOpacity = 0.75
-    if (munType == "NO" | munType == "TI") {
+    if (munType == "NO" | munType == "TI" | munType == "GR") {
       fillOpacity = 0.25
     }
 
