@@ -1189,7 +1189,8 @@ function initMap() {
     munType  = feature.getProperty('munType')
     countyId = feature.getProperty('countyId')
 
-    // Find population density of each municipality.
+    // Find population density of each municipality. (Not totally accurate 
+    // since it also counts the water area.)
     var bounds = [];
     feature.getGeometry().forEachLatLng(function(path) {
       bounds.push(path)
@@ -1201,6 +1202,8 @@ function initMap() {
     if (munType == "NO" | munType == "TI" | munType == "GR") {
       fillOpacity = 0.25
     }
+
+    console.log("test git")
 
     if (density >= 10000) {
       fillColor = "#800000"
