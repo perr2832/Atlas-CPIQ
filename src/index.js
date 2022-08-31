@@ -7,7 +7,7 @@ function initMap() {
   // Map settings.
   let mapProp = {
     zoom: 6,
-    center: { lat: 58, lng: -72 },
+    center: { lat: 50, lng: -72 },
     mapTypeId: "terrain",
     disableDefaultUI: true,
     styles: [
@@ -325,75 +325,854 @@ function initMap() {
     ]};
   map = new google.maps.Map(document.getElementById("map"), mapProp);
   infoWindow = new google.maps.InfoWindow();
-   
+
+  var QC_Counties = {
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "type": "Feature",
+        "id": 1,
+        "properties": {
+          "countyName": "Les Îles-de-la-Madeleine",
+          "countyType": "TE",
+          "countyColor": "red"
+        } 
+      }, {
+        "type": "Feature",
+        "id": 2,
+        "properties": {
+          "countyName": "Le Rocher-Percé",
+          "countyType": "MRC",
+          "countyColor": "red"
+        }
+      }, {
+        "type": "Feature",
+        "id": 3,
+        "properties": {
+          "countyName": "La Côte-de-Gaspé",
+          "countyType": "MRC",
+          "countyColor": "red"
+        }
+      }, {
+        "type": "Feature",
+        "id": 4,
+        "properties": {
+          "countyName": "La Haute-Gaspésie",
+          "countyType": "MRC",
+          "countyColor": "red"
+        }
+      }, {
+        "type": "Feature",
+        "id": 5,
+        "properties": {
+          "countyName": "Bonaventure",
+          "countyType": "MRC",
+          "countyColor": "red"
+        }
+      }, {
+        "type": "Feature",
+        "id": 6,
+        "properties": {
+          "countyName": "Avignon",
+          "countyType": "MRC",
+          "countyColor": "red"
+        }
+      }, {
+        "type": "Feature",
+        "id": 7,
+        "properties": {
+          "countyName": "La Matapédia",
+          "countyType": "MRC",
+          "countyColor": "blue"
+        }
+      }, {
+        "type": "Feature",
+        "id": 8,
+        "properties": {
+          "countyName": "La Matanie",
+          "countyType": "MRC",
+          "countyColor": "blue"
+        }
+      }, {
+        "type": "Feature",
+        "id": 9,
+        "properties": {
+          "countyName": "La Mitis",
+          "countyType": "MRC",
+          "countyColor": "blue"
+        }
+      }, {
+        "type": "Feature",
+        "id": 10,
+        "properties": {
+          "countyName": "Rimouski-Neigette",
+          "countyType": "MRC",
+          "countyColor": "blue"
+        }
+      }, {
+        "type": "Feature",
+        "id": 11,
+        "properties": {
+          "countyName": "Les Basques",
+          "countyType": "MRC",
+          "countyColor": "blue"
+        }
+      }, {
+        "type": "Feature",
+        "id": 12,
+        "properties": {
+          "countyName": "Rivière-du-Loup",
+          "countyType": "MRC",
+          "countyColor": "blue"
+        }
+      }, {
+        "type": "Feature",
+        "id": 13,
+        "properties": {
+          "countyName": "Témiscouata",
+          "countyType": "MRC",
+          "countyColor": "blue"
+        }
+      }, {
+        "type": "Feature",
+        "id": 14,
+        "properties": {
+          "countyName": "Kamouraska",
+          "countyType": "MRC",
+          "countyColor": "blue"
+        }
+      }, {
+        "type": "Feature",
+        "id": 15,
+        "properties": {
+          "countyName": "Charlevoix-Est",
+          "countyType": "MRC",
+          "countyColor": "green"
+        }
+      }, {
+        "type": "Feature",
+        "id": 16,
+        "properties": {
+          "countyName": "Charlevoix",
+          "countyType": "MRC",
+          "countyColor": "green"
+        }
+      }, {
+        "type": "Feature",
+        "id": 17,
+        "properties": {
+          "countyName": "L'Islet",
+          "countyType": "MRC",
+          "countyColor": "yellow"
+        }
+      }, {
+        "type": "Feature",
+        "id": 18,
+        "properties": {
+          "countyName": "Montmagny",
+          "countyType": "MRC",
+          "countyColor": "yellow"
+        }
+      }, {
+        "type": "Feature",
+        "id": 19,
+        "properties": {
+          "countyName": "Bellechasse",
+          "countyType": "MRC",
+          "countyColor": "yellow"
+        }
+      }, {
+        "type": "Feature",
+        "id": 20,
+        "properties": {
+          "countyName": "L'Île-d'Orléans",
+          "countyType": "MRC",
+          "countyColor": "green"
+        }
+      }, {
+        "type": "Feature",
+        "id": 21,
+        "properties": {
+          "countyName": "La Côte-de-Beaupré",
+          "countyType": "MRC",
+          "countyColor": "green"
+        }
+      }, {
+        "type": "Feature",
+        "id": 22,
+        "properties": {
+          "countyName": "La Jacques-Cartier",
+          "countyType": "MRC",
+          "countyColor": "green"
+        }
+      }, {
+        "type": "Feature",
+        "id": 23,
+        "properties": {
+          "countyName": "Québec",
+          "countyType": "TE",
+          "countyColor": "green"
+        }
+      }, {
+        "type": "Feature",
+        "id": 251,
+        "properties": {
+          "countyName": "Lévis",
+          "countyType": "TE",
+          "countyColor": "yellow"
+        }
+      }, {
+        "type": "Feature",
+        "id": 26,
+        "properties": {
+          "countyName": "La Nouvelle-Beauce",
+          "countyType": "MRC",
+          "countyColor": "yellow"
+        }
+      }, {
+        "type": "Feature",
+        "id": 27,
+        "properties": {
+          "countyName": "Robert-Cliche",
+          "countyType": "MRC",
+          "countyColor": "yellow"
+        }
+      }, {
+        "type": "Feature",
+        "id": 28,
+        "properties": {
+          "countyName": "Les Etchemins",
+          "countyType": "MRC",
+          "countyColor": "yellow"
+        }
+      }, {
+        "type": "Feature",
+        "id": 29,
+        "properties": {
+          "countyName": "Beauce-Sartigan",
+          "countyType": "MRC",
+          "countyColor": "yellow"
+        }
+      }, {
+        "type": "Feature",
+        "id": 30,
+        "properties": {
+          "countyName": "Le Granit",
+          "countyType": "MRC",
+          "countyColor": "magenta"
+        }
+      }, {
+        "type": "Feature",
+        "id": 31,
+        "properties": {
+          "countyName": "Les Appalaches",
+          "countyType": "MRC",
+          "countyColor": "yellow"
+        }
+      }, {
+        "type": "Feature",
+        "id": 32,
+        "properties": {
+          "countyName": "L'Érable",
+          "countyType": "MRC",
+          "countyColor": "orange"
+        }
+      }, {
+        "type": "Feature",
+        "id": 33,
+        "properties": {
+          "countyName": "Lotbinière",
+          "countyType": "MRC",
+          "countyColor": "yellow"
+        }
+      }, {
+        "type": "Feature",
+        "id": 34,
+        "properties": {
+          "countyName": "Portneuf",
+          "countyType": "MRC",
+          "countyColor": "green"
+        }
+      }, {
+        "type": "Feature",
+        "id": 35,
+        "properties": {
+          "countyName": "Mékinac",
+          "countyType": "MRC",
+          "countyColor": "purple"
+        }
+      }, {
+        "type": "Feature",
+        "id": 36,
+        "properties": {
+          "countyName": "Shawinigan",
+          "countyType": "TE",
+          "countyColor": "purple"
+        }
+      }, {
+        "type": "Feature",
+        "id": 371,
+        "properties": {
+          "countyName": "Trois-Rivières",
+          "countyType": "TE",
+          "countyColor": "purple"
+        }
+      }, {
+        "type": "Feature",
+        "id": 372,
+        "properties": {
+          "countyName": "Les Chenaux",
+          "countyType": "MRC",
+          "countyColor": "purple"
+        }
+      }, {
+        "type": "Feature",
+        "id": 38,
+        "properties": {
+          "countyName": "Bécancour",
+          "countyType": "MRC",
+          "countyColor": "orange"
+        }
+      }, {
+        "type": "Feature",
+        "id": 39,
+        "properties": {
+          "countyName": "Arthabaska",
+          "countyType": "MRC",
+          "countyColor": "orange"
+        }
+      }, {
+        "type": "Feature",
+        "id": 40,
+        "properties": {
+          "countyName": "Les Sources",
+          "countyType": "MRC",
+          "countyColor": "magenta"
+        }
+      }, {
+        "type": "Feature",
+        "id": 41,
+        "properties": {
+          "countyName": "Le Haut-Saint-François",
+          "countyType": "MRC",
+          "countyColor": "magenta"
+        }
+      }, {
+        "type": "Feature",
+        "id": 42,
+        "properties": {
+          "countyName": "Le Val-Saint-François",
+          "countyType": "MRC",
+          "countyColor": "magenta"
+        }
+      }, {
+        "type": "Feature",
+        "id": 43,
+        "properties": {
+          "countyName": "Sherbrooke",
+          "countyType": "TE",
+          "countyColor": "magenta"
+        }
+      }, {
+        "type": "Feature",
+        "id": 44,
+        "properties": {
+          "countyName": "Coaticook",
+          "countyType": "MRC",
+          "countyColor": "magenta"
+        }
+      }, {
+        "type": "Feature",
+        "id": 45,
+        "properties": {
+          "countyName": "Memphrémagog",
+          "countyType": "MRC",
+          "countyColor": "magenta"
+        }
+      }, {
+        "type": "Feature",
+        "id": 46,
+        "properties": {
+          "countyName": "Brome-Missisquoi",
+          "countyType": "MRC",
+          "countyColor": "magenta"
+        }
+      }, {
+        "type": "Feature",
+        "id": 47,
+        "properties": {
+          "countyName": "La Haute-Yamaska",
+          "countyType": "MRC",
+          "countyColor": "magenta"
+        }
+      }, {
+        "type": "Feature",
+        "id": 48,
+        "properties": {
+          "countyName": "Acton",
+          "countyType": "MRC",
+          "countyColor": "cyan"
+        }
+      }, {
+        "type": "Feature",
+        "id": 49,
+        "properties": {
+          "countyName": "Drummond",
+          "countyType": "MRC",
+          "countyColor": "orange"
+        }
+      }, {
+        "type": "Feature",
+        "id": 50,
+        "properties": {
+          "countyName": "Nicolas-Yamaska",
+          "countyType": "MRC",
+          "countyColor": "orange"
+        }
+      }, {
+        "type": "Feature",
+        "id": 51,
+        "properties": {
+          "countyName": "Maskinongé",
+          "countyType": "MRC",
+          "countyColor": "purple"
+        }
+      }, {
+        "type": "Feature",
+        "id": 52,
+        "properties": {
+          "countyName": "D'Autray",
+          "countyType": "MRC",
+          "countyColor": "lime"
+        }
+      }, {
+        "type": "Feature",
+        "id": 53,
+        "properties": {
+          "countyName": "Pierre-De Saurel",
+          "countyType": "MRC",
+          "countyColor": "cyan"
+        }
+      }, {
+        "type": "Feature",
+        "id": 54,
+        "properties": {
+          "countyName": "Les Maskoutains",
+          "countyType": "MRC",
+          "countyColor": "cyan"
+        }
+      }, {
+        "type": "Feature",
+        "id": 55,
+        "properties": {
+          "countyName": "Rouville",
+          "countyType": "MRC",
+          "countyColor": "cyan"
+        }
+      }, {
+        "type": "Feature",
+        "id": 56,
+        "properties": {
+          "countyName": "Le Haut-Richelieu",
+          "countyType": "MRC",
+          "countyColor": "cyan"
+        }
+      }, {
+        "type": "Feature",
+        "id": 57,
+        "properties": {
+          "countyName": "La Vallée-du-Richelieu",
+          "countyType": "MRC",
+          "countyColor": "cyan"
+        }
+      }, {
+        "type": "Feature",
+        "id": 58,
+        "properties": {
+          "countyName": "Longueuil",
+          "countyType": "TE",
+          "countyColor": "cyan"
+        }
+      }, {
+        "type": "Feature",
+        "id": 59,
+        "properties": {
+          "countyName": "Marguerite-d'Youville",
+          "countyType": "MRC",
+          "countyColor": "cyan"
+        }
+      }, {
+        "type": "Feature",
+        "id": 60,
+        "properties": {
+          "countyName": "L'Assomption",
+          "countyType": "MRC",
+          "countyColor": "lime"
+        }
+      }, {
+        "type": "Feature",
+        "id": 61,
+        "properties": {
+          "countyName": "Joliette",
+          "countyType": "MRC",
+          "countyColor": "lime"
+        }
+      }, {
+        "type": "Feature",
+        "id": 62,
+        "properties": {
+          "countyName": "Matawinie",
+          "countyType": "MRC",
+          "countyColor": "lime"
+        }
+      }, {
+        "type": "Feature",
+        "id": 63,
+        "properties": {
+          "countyName": "Montcalm",
+          "countyType": "MRC",
+          "countyColor": "lime"
+        }
+      }, {
+        "type": "Feature",
+        "id": 64,
+        "properties": {
+          "countyName": "Les Moulins",
+          "countyType": "MRC",
+          "countyColor": "lime"
+        }
+      }, {
+        "type": "Feature",
+        "id": 65,
+        "properties": {
+          "countyName": "Laval",
+          "countyType": "TE",
+          "countyColor": "olive"
+        }
+      }, {
+        "type": "Feature",
+        "id": 66,
+        "properties": {
+          "countyName": "Montréal",
+          "countyType": "TE",
+          "countyColor": "maroon"
+        }
+      }, {
+        "type": "Feature",
+        "id": 67,
+        "properties": {
+          "countyName": "Roussillon",
+          "countyType": "MRC",
+          "countyColor": "cyan"
+        }
+      }, {
+        "type": "Feature",
+        "id": 68,
+        "properties": {
+          "countyName": "Les Jardins-de-Napierville",
+          "countyType": "MRC",
+          "countyColor": "cyan"
+        }
+      }, {
+        "type": "Feature",
+        "id": 69,
+        "properties": {
+          "countyName": "Le Haut-Saint-Laurent",
+          "countyType": "MRC",
+          "countyColor": "cyan"
+        }
+      }, {
+        "type": "Feature",
+        "id": 70,
+        "properties": {
+          "countyName": "Beauharnois-Salaberry",
+          "countyType": "MRC",
+          "countyColor": "cyan"
+        }
+      }, {
+        "type": "Feature",
+        "id": 71,
+        "properties": {
+          "countyName": "Vaudreuil-Soulanges",
+          "countyType": "MRC",
+          "countyColor": "cyan"
+        }
+      }, {
+        "type": "Feature",
+        "id": 72,
+        "properties": {
+          "countyName": "Deux-Montagnes",
+          "countyType": "MRC",
+          "countyColor": "#ffd8b1"
+        }
+      }, {
+        "type": "Feature",
+        "id": 73,
+        "properties": {
+          "countyName": "Thérèse-De Blainville",
+          "countyType": "MRC",
+          "countyColor": "#ffd8b1"
+        }
+      }, {
+        "type": "Feature",
+        "id": 74,
+        "properties": {
+          "countyName": "Mirabel",
+          "countyType": "TE",
+          "countyColor": "#ffd8b1"
+        }
+      }, {
+        "type": "Feature",
+        "id": 75,
+        "properties": {
+          "countyName": "La Rivière-du-Nord",
+          "countyType": "MRC",
+          "countyColor": "#ffd8b1"
+        }
+      }, {
+        "type": "Feature",
+        "id": 76,
+        "properties": {
+          "countyName": "Argenteuil",
+          "countyType": "MRC",
+          "countyColor": "#ffd8b1"
+        }
+      }, {
+        "type": "Feature",
+        "id": 77,
+        "properties": {
+          "countyName": "Les Pays-d'en-Haut",
+          "countyType": "MRC",
+          "countyColor": "#ffd8b1"
+        }
+      }, {
+        "type": "Feature",
+        "id": 78,
+        "properties": {
+          "countyName": "Les Laurentides",
+          "countyType": "MRC",
+          "countyColor": "#ffd8b1"
+        }
+      }, {
+        "type": "Feature",
+        "id": 79,
+        "properties": {
+          "countyName": "Antoine-Labelle",
+          "countyType": "MRC",
+          "countyColor": "#ffd8b1"
+        }
+      }, {
+        "type": "Feature",
+        "id": 80,
+        "properties": {
+          "countyName": "Papineau",
+          "countyType": "MRC",
+          "countyColor": "#aaffc3"
+        }
+      }, {
+        "type": "Feature",
+        "id": 81,
+        "properties": {
+          "countyName": "Gatineau",
+          "countyType": "TE",
+          "countyColor": "#aaffc3"
+        }
+      }, {
+        "type": "Feature",
+        "id": 82,
+        "properties": {
+          "countyName": "Les Collines-de-l'Outaouais",
+          "countyType": "MRC",
+          "countyColor": "#aaffc3"
+        }
+      }, {
+        "type": "Feature",
+        "id": 83,
+        "properties": {
+          "countyName": "La Vallée-de-la-Gatineau",
+          "countyType": "MRC",
+          "countyColor": "#aaffc3"
+        }
+      }, {
+        "type": "Feature",
+        "id": 84,
+        "properties": {
+          "countyName": "Pontiac",
+          "countyType": "MRC",
+          "countyColor": "#aaffc3"
+        }
+      }, {
+        "type": "Feature",
+        "id": 85,
+        "properties": {
+          "countyName": "Témiscamingue",
+          "countyType": "MRC",
+          "countyColor": "#9A6324"
+        }
+      }, {
+        "type": "Feature",
+        "id": 86,
+        "properties": {
+          "countyName": "Rouyn-Noranda",
+          "countyType": "TE",
+          "countyColor": "#9A6324"
+        }
+      }, {
+        "type": "Feature",
+        "id": 87,
+        "properties": {
+          "countyName": "Abitibi-Ouest",
+          "countyType": "MRC",
+          "countyColor": "#9A6324"
+        }
+      }, {
+        "type": "Feature",
+        "id": 88,
+        "properties": {
+          "countyName": "Abitibi",
+          "countyType": "MRC",
+          "countyColor": "#9A6324"
+        }
+      }, {
+        "type": "Feature",
+        "id": 89,
+        "properties": {
+          "countyName": "La Vallée-de-l'Or",
+          "countyType": "MRC",
+          "countyColor": "#9A6324"
+        }
+      }, {
+        "type": "Feature",
+        "id": 90,
+        "properties": {
+          "countyName": "La Tuque",
+          "countyType": "TE",
+          "countyColor": "purple"
+        }
+      }, {
+        "type": "Feature",
+        "id": 91,
+        "properties": {
+          "countyName": "Le Domaine-du-Roy",
+          "countyType": "MRC",
+          "countyColor": "#fffac8"
+        }
+      }, {
+        "type": "Feature",
+        "id": 92,
+        "properties": {
+          "countyName": "Maria-Chapdelaine",
+          "countyType": "MRC",
+          "countyColor": "#fffac8"
+        }
+      }, {
+        "type": "Feature",
+        "id": 93,
+        "properties": {
+          "countyName": "Lac-Saint-Jean-Est",
+          "countyType": "MRC",
+          "countyColor": "#fffac8"
+        }
+      }, {
+        "type": "Feature",
+        "id": 941,
+        "properties": {
+          "countyName": "Saguenay",
+          "countyType": "TE",
+          "countyColor": "#fffac8"
+        }
+      }, {
+        "type": "Feature",
+        "id": 942,
+        "properties": {
+          "countyName": "Le Fjord-du-Saguenay",
+          "countyType": "MRC",
+          "countyColor": "#fffac8"
+        }
+      }, {
+        "type": "Feature",
+        "id": 95,
+        "properties": {
+          "countyName": "La Haute-Côte-Nord",
+          "countyType": "MRC",
+          "countyColor": "#000075"
+        }
+      }, {
+        "type": "Feature",
+        "id": 96,
+        "properties": {
+          "countyName": "Manicouagan",
+          "countyType": "MRC",
+          "countyColor": "#000075"
+        }
+      }, {
+        "type": "Feature",
+        "id": 971,
+        "properties": {
+          "countyName": "Sept-Rivières",
+          "countyType": "MRC",
+          "countyColor": "#000075"
+        }
+      }, {
+        "type": "Feature",
+        "id": 972,
+        "properties": {
+          "countyName": "Caniapiscau",
+          "countyType": "MRC",
+          "countyColor": "#000075"
+        }
+      }, {
+        "type": "Feature",
+        "id": 981,
+        "properties": {
+          "countyName": "Minganie",
+          "countyType": "MRC",
+          "countyColor": "#000075"
+        }
+      }, {
+        "type": "Feature",
+        "id": 982,
+        "properties": {
+          "countyName": "Le Golfe-du-Saint-Laurent",
+          "countyType": "MRC",
+          "countyColor": "#000075"
+        }
+      }, {
+        "type": "Feature",
+        "id": 991,
+        "properties": {
+          "countyName": "Jamésie",
+          "countyType": "TE",
+          "countyColor": "#dcbeff"
+        }
+      }, {
+        "type": "Feature",
+        "id": 992,
+        "properties": {
+          "countyName": "Kativik",
+          "countyType": "TE",
+          "countyColor": "#dcbeff"
+        }
+      }, {
+        "type": "Feature",
+        "id": 993,
+        "properties": {
+          "countyName": "Eeyou Istchee",
+          "countyType": "TE",
+          "countyColor": "#dcbeff"
+        }
+      }
+    ] 
+  }
+
   // Load GeoJson data.
   // This method is asynchronous. Therefore we have to use the optional callback feature to use the forEach method later on.
   let regionLayer = new google.maps.Data({ map: map });
+  let region = ['01_YUL', '02_WBZ', '03_WIZ', '04_WEW', '05_YMX', '06_WJT', '07_MMY', '08_MLR', '09_MDO', '10_WMJ', '11_YWA', '12_WRC', '13_YUY', '14_WPK', '15_YNM', '16_YKQ', '17_YGL', '18_YAH', '19_YKL', '20_YWK', '21_YSC', '22_WHV', '23_MLU', '24_YRQ', '25_YQB', '26_MMY', '27_CHR', '28_WDQ', '29_WPD', '30_YBG', '31_YRJ', '32_YMT', '33_WNH', '34_TMA', '35_YYY', '36_GCL', '37_WSG', '38_WSF', '39_PNG', '40_MJN', '41_WOC', '42_YGP', '43_MNC', '44_MGZ', '45_YBC', '46_YZV', '47_YGV', '48_WBY', '49_YNA', '50_WDM', '51_YBX', '52_YGW', '53_YSK', '54_YMU', '55_YPH', '56_YPX', '57_YKO', '58_YIK', '59_YZG', '60_YKG', '61_YHA', '62_YAS', '63_YLA', '64_YTQ', '65_YVP', '66_YLU']
 
-  regionLayer.loadGeoJson("data/pol/66_YLU.json")
-  regionLayer.loadGeoJson("data/pol/65_YVP.json")
-  regionLayer.loadGeoJson("data/pol/64_YTQ.json")
-  regionLayer.loadGeoJson("data/pol/63_YLA.json")
-  regionLayer.loadGeoJson("data/pol/62_YAS.json")
-  regionLayer.loadGeoJson("data/pol/61_YHA.json")
-  regionLayer.loadGeoJson("data/pol/60_YKG.json")
-  regionLayer.loadGeoJson("data/pol/59_YZG.json")
-  regionLayer.loadGeoJson("data/pol/58_YIK.json")
-  regionLayer.loadGeoJson("data/pol/57_YKO.json")
-  regionLayer.loadGeoJson("data/pol/56_YPX.json")
-  regionLayer.loadGeoJson("data/pol/55_YPH.json")
-  regionLayer.loadGeoJson("data/pol/54_YMU.json")
-  regionLayer.loadGeoJson("data/pol/52_YGW.json")
-  regionLayer.loadGeoJson("data/pol/51_YBX.json")
-  regionLayer.loadGeoJson("data/pol/50_WDM.json")
-  regionLayer.loadGeoJson("data/pol/49_YNA.json")
-  regionLayer.loadGeoJson("data/pol/48_WBY.json")
-  regionLayer.loadGeoJson("data/pol/47_YGV.json")
-  regionLayer.loadGeoJson("data/pol/46_YZV.json")
-  regionLayer.loadGeoJson("data/pol/45_YBC.json")
-  regionLayer.loadGeoJson("data/pol/44_MGZ.json")
-  regionLayer.loadGeoJson("data/pol/43_MNC.json")
-  regionLayer.loadGeoJson("data/pol/42_YGP.json")
-  regionLayer.loadGeoJson("data/pol/41_WOC.json")
-  regionLayer.loadGeoJson("data/pol/40_MJN.json")
-  regionLayer.loadGeoJson("data/pol/39_PNG.json")
-  regionLayer.loadGeoJson("data/pol/38_WSF.json")
-  regionLayer.loadGeoJson("data/pol/37_WSG.json")
-  regionLayer.loadGeoJson("data/pol/36_GCL.json")
-  regionLayer.loadGeoJson("data/pol/35_YYY.json")
-  regionLayer.loadGeoJson("data/pol/34_TMA.json")
-  regionLayer.loadGeoJson("data/pol/33_WNH.json")
-  regionLayer.loadGeoJson("data/pol/32_YMT.json")
-  regionLayer.loadGeoJson("data/pol/31_YRJ.json")
-  regionLayer.loadGeoJson("data/pol/30_YBG.json")
-  regionLayer.loadGeoJson("data/pol/29_WPD.json")
-  regionLayer.loadGeoJson("data/pol/28_WDQ.json")
-  regionLayer.loadGeoJson("data/pol/27_CHR.json")
-  regionLayer.loadGeoJson("data/pol/26_MMY.json")
-  regionLayer.loadGeoJson("data/pol/25_YQB.json")
-  regionLayer.loadGeoJson("data/pol/24_YRQ.json")
-  regionLayer.loadGeoJson("data/pol/23_MLU.json")
-  regionLayer.loadGeoJson("data/pol/22_WHV.json")
-  regionLayer.loadGeoJson("data/pol/21_YSC.json")
-  regionLayer.loadGeoJson("data/pol/20_YWK.json")
-  regionLayer.loadGeoJson("data/pol/19_YKL.json")
-  regionLayer.loadGeoJson("data/pol/17_YGL.json")
-  regionLayer.loadGeoJson("data/pol/16_YKQ.json")
-  regionLayer.loadGeoJson("data/pol/15_YNM.json")
-  regionLayer.loadGeoJson("data/pol/14_WPK.json")
-  regionLayer.loadGeoJson("data/pol/13_YUY.json")
-  regionLayer.loadGeoJson("data/pol/12_WRC.json")
-  regionLayer.loadGeoJson("data/pol/11_YWA.json")
-  regionLayer.loadGeoJson("data/pol/10_WMJ.json")
-  regionLayer.loadGeoJson("data/pol/09_MDO.json")
-  regionLayer.loadGeoJson("data/pol/08_MLR.json")
-  regionLayer.loadGeoJson("data/pol/07_MMY.json")
-  regionLayer.loadGeoJson("data/pol/06_WJT.json")
-  regionLayer.loadGeoJson("data/pol/05_YMX.json")
-  regionLayer.loadGeoJson("data/pol/04_WEW.json")
-  regionLayer.loadGeoJson("data/pol/03_WIZ.json")
-  regionLayer.loadGeoJson("data/pol/02_WBZ.json")
-  regionLayer.loadGeoJson("data/pol/01_YUL.json")
+  for (let step = 0; step < 66; step++) {
+    regionLayer.loadGeoJson('data/pol/' + region[step] + '.json')
+  }
 
   let regionLayer2 = new google.maps.Data({ map: map });
   regionLayer2.loadGeoJson("data/public_zones.json");
@@ -404,17 +1183,24 @@ function initMap() {
   // Style GeoJson data.
   // Set style for colored municipality polygons and points.
   regionLayer.setStyle(function(feature) {
-    munName = feature.getProperty('munName')
-    pop     = feature.getProperty('pop')
+    munName  = feature.getProperty('munName')
+    pop      = feature.getProperty('pop')
+    munType  = feature.getProperty('munType')
+    countyId = feature.getProperty('countyId')
+
+    // Find population density of each municipality.
     var bounds = [];
     feature.getGeometry().forEachLatLng(function(path) {
       bounds.push(path)
     })
     var area = google.maps.geometry.spherical.computeArea(bounds)/1e6
     var density = pop / area
+
     let fillOpacity = 0.75
-    var scale
-        
+    if (munType == "NO" | munType == "TI") {
+      fillOpacity = 0.25
+    }
+
     if (density >= 10000) {
       fillColor = "#800000"
     } else if (density >= 5000) {
@@ -438,13 +1224,12 @@ function initMap() {
     } else if (density >= 5) {
       fillColor = "#fce700"
     } else if (density >= 2) {
-      fillColor = "#ffff00",
-      fillOpacity = 0.5
+      fillColor = "#ffff00"
     } else {
-      fillColor = "yellow",
-      fillOpacity = 0.25
+      fillColor = "yellow"
     } 
 
+    var scale 
     if (pop >= 1000000) {
       scale = 8
     } else if (pop >= 500000) {
@@ -472,10 +1257,17 @@ function initMap() {
     } else {
       scale = 2
     } 
+
+    for (var i = 0, len = QC_Counties.features.length; i < len; i++) {
+        if (QC_Counties.features[i].id == countyId) {
+          fillColor = QC_Counties.features[i].properties.countyColor
+        }
+      }
+    
         
     symbol = {
       path: google.maps.SymbolPath.CIRCLE,
-      scale: scale,
+      scale: 0,
       strokeColor: "black",
       strokeWeight: 1,
       fillColor: "cyan",
@@ -497,9 +1289,10 @@ function initMap() {
       return {
           fillColor: "white",
           fillOpacity: 0,
-          strokeColor: "black",
+          strokeColor: "red",
           strokeOpacity: 1,
-          strokeWeight: 3
+          strokeWeight: 3,
+          zIndex: 2
       }
   })
 
@@ -549,7 +1342,6 @@ function initMap() {
 
     // Get marker info upon click to display in left menu
     regionLayer.addListener("click", (event) => {
-      console.log("test")
       regionLayer.revertStyle();
       regionLayer.overrideStyle(event.feature, {
         strokeColor: 'red',
@@ -565,7 +1357,6 @@ function initMap() {
         })
         var area = google.maps.geometry.spherical.computeArea(bounds)/1e6
         var density = pop / area
-        console.log(density)
 
         // Clear previous info in bar
         var div = document.getElementById("info");
