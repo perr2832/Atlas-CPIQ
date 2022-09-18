@@ -1,5 +1,11 @@
 // Opening JSON file
-fetch("./CYUL 2019_EN.json")
+
+function yearSelection(yearID) {
+
+
+//year = '2019'
+
+fetch(`./CYUL ${yearID}_EN.json`)
 .then(response => {
    return response.json();
 })
@@ -269,32 +275,37 @@ fetch("./CYUL 2019_EN.json")
     console.log("sum3")
     console.log(sum3)
 
+
     
 
     // Graphic (Chart.js)
-    function myFunction(january){
-        const labels = Object.keys(january)
-        const data = {
-            labels: labels,
-            datasets: [{
-                label: "temp",
-                backgroundColor: 'rgb(255, 99, 132)',
-                data: january,
-            }]
-        }
 
-        const config = {
-            type: "line",
-            data: data,
-            options: {}
-        };
 
-        const mtChart = new Chart(
-            document.getElementById("myChart"),
-            config
-        );
-
+    let chartStatus = Chart.getChart("myChart"); // <canvas> id
+    if (chartStatus != undefined) {
+        chartStatus.destroy();
     }
+    
+    const labels = Object.keys(january)
+    const data = {
+        labels: labels,
+        datasets: [{
+            label: "temp",
+            backgroundColor: 'rgb(255, 99, 132)',
+            data: january,
+        }]
+    }
+
+    const config = {
+        type: "line",
+        data: data,
+        options: {}
+    };
+
+    const mtChart = new Chart(
+        document.getElementById("myChart"),
+        config
+    );
 
     
 
@@ -304,6 +315,118 @@ fetch("./CYUL 2019_EN.json")
 });
 
 
+
+}
+
+
+
+allYearsID = [2019, 2020];
+console.log('typeof allYearsID[0]')
+console.log(typeof allYearsID[0])
+console.log(typeof allYearsID)
+console.log(allYearsID)
+
+
+startYear = 2019
+allYearsData = Array.from(Array(3).keys())
+sampleYears = []
+for (i = 0; i < allYearsData.length; i++) {
+    sampleYears += allYearsData[i] + startYear + ","
+}
+console.log('sampleYears')
+console.log(sampleYears)
+
+
+sampleYears = sampleYears.split(",")
+console.log('sampleYears')
+console.log(sampleYears)
+
+
+sampleYears = sampleYears.map(str => {
+    return Number(str);
+})
+
+
+console.log('sampleYears')
+console.log(sampleYears)
+
+urlsSample = []
+for (i = 0; i < sampleYears.length; i++) {
+    urlsSample += `./CYUL ${sampleYears[i]}_EN.json` + ','
+}
+
+urlsSample = urlsSample.split(",")
+
+
+
+console.log('urlsSample')
+console.log(urlsSample)
+
+
+
+
+urls = []
+for (i = 0; i < urlsSample.length; i++) {
+    urls += urlsSample[i] + ','
+}
+
+urls = urls.split(",")
+urls = urls.splice(0, urls.length-3)
+
+console.log('urls')
+console.log(urls)
+console.log(typeof urls[0])
+
+
+
+
+
+
+
+const requests = urls.map(u=>fetch(u));
+
+Promise.all(urls.map(u=>fetch(u).then(responses => responses.json())
+    )
+
+).then(data => {
+    finalResult = data.flat();
+    let windDir = []
+    for (let x of finalResult) {
+        windDir += x["Spd of Max Gust (km/h)"]  + ","
+    }
+
+
+    windDir = windDir.split(",")
+
+    console.log('windDir')
+    console.log(windDir)
+
+    windDir = windDir.map(str => {
+        return Number(str);
+    })
+
+
+    console.log('finalResult')
+    console.log(finalResult)
+
+    console.log('windDir')
+    console.log(windDir.length)
+
+
+    
+});
+
+        
+
+        
+    
+     //   let windSpeed = []
+    //    for (let x of jsondata) {
+      //      windSpeed += x["Spd of Max Gust (km/h)"]  + ","
+    //    }
+
+
+   
 
 
 
