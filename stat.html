@@ -8,6 +8,7 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script type="text/javascript" src="csv2json.js"></script>
         <script data-main="scripts/main" src="scripts/require.js"></script>
+        <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
     </head>  
     <body>
         <div id="container">
@@ -17,7 +18,11 @@
                     <div id="toggles">
                         <canvas id = "myChart"></canvas>
                     </div>
-                    <button id="demo" onClick="document.getElementById('myChart').style.display='block';">January 2019 temperature graphic</button>
+                    <button id="2019" onClick="yearSelection(this.id)">January 2019 temperature graphic</button>
+                    <button id="2020" onClick="yearSelection(this.id)">January 2020 temperature graphic</button>
+                    <div id="toggles2">
+                        <canvas id = "windRose"></canvas>
+                    </div>
                 </div>
     
             </div>
@@ -29,6 +34,6 @@
 
         
 
-        <script src="data.js"></script>
+        <script src="stats.js"></script>
     </body>
 </html>
