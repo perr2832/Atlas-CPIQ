@@ -390,34 +390,208 @@ Promise.all(urls.map(u=>fetch(u).then(responses => responses.json())
 
 ).then(data => {
     finalResult = data.flat();
-    let windDir = []
+
+
+
+    let windSpd = []
     for (let x of finalResult) {
-        windDir += x["Spd of Max Gust (km/h)"]  + ","
+        windSpd += x["Spd of Max Gust (km/h)"]  + ","
     }
+    windSpd = windSpd.split(",")
+
+    console.log('windSpd')
+    console.log(windSpd)
+
+    
+// Replace undefined data by NaNs 
+function getAllIndexes(arr, val) {
+    var windIndexes = [], i;
+    for(i = 0; i < arr.length; i++)
+        if (arr[i] === val)
+        windIndexes.push(i);
+    return windIndexes;
+}
+
+var windIndexes = getAllIndexes(windSpd, "");
+
+function myFunction(item, index) {
+    if (item !== -1) {
+        windSpd[item] = NaN;
+    }
+}
+windIndexes.forEach(myFunction);
+
+console.log("windSpd2")
+console.log(windSpd)
 
 
+    windSpd = windSpd.map(str => {
+        return Number(str);
+    })
+
+    console.log("windSpd3")
+console.log(windSpd)
+
+
+
+let windDir = []
+    for (let x of finalResult) {
+        windDir += x["Dir of Max Gust (10s deg)"]  + ","
+    }
     windDir = windDir.split(",")
 
-    console.log('windDir')
-    console.log(windDir)
+    
+    var windIndexes2 = getAllIndexes(windDir, "");
+
+
+    function myFunction2(item, index) {
+        if (item !== -1) {
+            windDir[item] = NaN;
+        }
+    }
+    windIndexes2.forEach(myFunction2);
 
     windDir = windDir.map(str => {
         return Number(str);
     })
 
-
-    console.log('finalResult')
-    console.log(finalResult)
-
     console.log('windDir')
-    console.log(windDir.length)
+    console.log(windDir)
 
+    let mergedWind = []
+
+    for ( var i = 0; i < windSpd.length; i++ ) {
+        mergedWind.push( [ windDir[i], windSpd[i] ] );
+      }
+
+      console.log('mergedWind')
+      console.log(mergedWind)
+
+
+
+
+
+
+
+
+
+
+
+      
+      function createWindData(degree) {
+
+      const degreesNum = mergedWind.filter((x) => x[0] === degree);
+
+      const degreesNum_30 = degreesNum.filter((x) => x[1] < 40);
+      const degreesNum_40 = degreesNum.filter((x) => x[1] < 50 && x[1] >= 40);
+      const degreesNum_50 = degreesNum.filter((x) => x[1] < 60 && x[1] >= 50);
+      const degreesNum_60 = degreesNum.filter((x) => x[1] < 70 && x[1] >= 60);
+      const degreesNum_70 = degreesNum.filter((x) => x[1] < 80 && x[1] >= 70);
+      const degreesNum_80 = degreesNum.filter((x) => x[1] < 90 && x[1] >= 80);
+      const degreesNum_90 = degreesNum.filter((x) => x[1] < 100 && x[1] >= 90);
+      const degreesNum_100 = degreesNum.filter((x) => x[1] < 110 && x[1] >= 100);
+      const degreesNum_up110 = degreesNum.filter((x) => x[1] >= 100);
+
+      const percent_30 = (degreesNum_30.length / degreesNum.length) * 100
+      const percent_40 = (degreesNum_40.length / degreesNum.length) * 100
+      const percent_50 = (degreesNum_50.length / degreesNum.length) * 100
+      const percent_60 = (degreesNum_60.length / degreesNum.length) * 100
+      const percent_70 = (degreesNum_70.length / degreesNum.length) * 100
+      const percent_80 = (degreesNum_80.length / degreesNum.length) * 100
+      const percent_90 = (degreesNum_90.length / degreesNum.length) * 100
+      const percent_100 = (degreesNum_100.length / degreesNum.length) * 100
+      const percent_up110 = (degreesNum_up110.length / degreesNum.length) * 100
+
+      return [percent_30, percent_40, percent_50, percent_60]
+
+    }
+
+    
+    for (var i = 1; i < 37; i++) {
+        this["percent" + i] = createWindData(i)
+    };
+
+    console.log('percent5')
+    console.log(percent5)
+
+    const angle = Array.from(Array(36).keys())
+    const angle2 = angle.map(x => x+1)
+    
+    const angle3 = angle2.flatMap(i => [i,i,i,i]);
+    console.log('angle3')
+    console.log(angle3)
+    console.log(angle3.length)
+
+
+
+    var speedData = ['30-39', '40-49', '50-59', '60-69'];
+
+    var speedArray = [];
+
+    //speedArray = speedData.concat(speedData);
+
+
+    for (var i = 0; i < 36; i++) {
+        speedArray = speedArray.concat(speedData);
+    }
+    //speedArray = speedData.concat(speedData)
+
+   // var percentArray = []
+ //   for (var i = 1; i < 37; i++) {
+    //     percentArray += percent[i].concat(percent[i] + 1)
+ //   }
+
+    var percentArray = percent1.concat(percent2,percent3,percent4,percent5,percent6,percent7,percent8,percent9,percent10,percent11,percent12,percent13,percent14,percent15,percent16,percent17,percent18,percent19,percent20,percent21,percent22,percent23,percent24,percent25,percent26,percent27,percent28,percent29,percent30,percent31,percent32,percent33,percent34,percent35,percent36)
+
+   // var pepe = percent5.slice(0,4);
+    
+
+    console.log('percent1')
+    console.log(percent1)
+
+    console.log('percent2')
+    console.log(percent2)
+
+    console.log('percent3')
+    console.log(percent3)
+
+    
+    console.log('percentArray')
+    console.log(percentArray)
+
+
+    console.log('length')
+    console.log(angle3.length)
+
+    console.log('length')
+    console.log(speedArray.length)
+
+    console.log('length')
+    console.log(percentArray.length)
+
+
+
+
+
+
+    var finalArray = []
+    for ( var i = 0; i < angle3.length; i++ ) {
+        finalArray.push( [ angle3[i], speedArray[i], percentArray[i]] );
+      }
+
+     
+      console.log('finalArray')
+      console.log(finalArray)
+
+      //const january = januaryData.map(x => x[0]);
 
     
 });
 
-        
 
+
+
+    
         
     
      //   let windSpeed = []
