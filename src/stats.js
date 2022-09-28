@@ -320,6 +320,11 @@ fetch(`./CYUL ${yearID}_EN.json`)
 
 
 
+
+function monthSelection(monthID) {
+
+
+
 allYearsID = [2019, 2020];
 console.log('typeof allYearsID[0]')
 console.log(typeof allYearsID[0])
@@ -327,8 +332,8 @@ console.log(typeof allYearsID)
 console.log(allYearsID)
 
 
-startYear = 2019
-allYearsData = Array.from(Array(3).keys())
+startYear = 2002
+allYearsData = Array.from(Array(20).keys())
 sampleYears = []
 for (i = 0; i < allYearsData.length; i++) {
     sampleYears += allYearsData[i] + startYear + ","
@@ -458,58 +463,222 @@ let windDir = []
     console.log('windDir')
     console.log(windDir)
 
+    
+
+
+
+
+    let monthDate = []
+    for (let x of finalResult) {
+      monthDate += x["Month"]  + ","
+    }
+    monthDate = monthDate.split(",")
+
+    
+    var monthIndexes = getAllIndexes(monthDate, "");
+
+
+    function myFunction3(item, index) {
+        if (item !== -1) {
+          monthDate[item] = NaN;
+        }
+    }
+    monthIndexes.forEach(myFunction3);
+
+    monthArray = monthDate.map(str => {
+        return Number(str);
+    })
+
+    console.log('monthArray')
+    console.log(monthArray)
+
+
+    let tempDate = []
+    for (let x of finalResult) {
+      tempDate += x["Max Temp (�C)"]  + ","
+    }
+    tempDate = tempDate.split(",")
+
+    
+    var tempIndexes = getAllIndexes(tempDate, "");
+
+
+    function myFunction4(item, index) {
+        if (item !== -1) {
+          tempDate[item] = NaN;
+        }
+    }
+    tempIndexes.forEach(myFunction4);
+
+    tempArray = tempDate.map(str => {
+        return Number(str);
+    })
+
+    console.log('tempDate')
+    console.log(tempDate)
+
+
+
+
+
+
+
+
     let mergedWind = []
 
     for ( var i = 0; i < windSpd.length; i++ ) {
-        mergedWind.push( [ windDir[i], windSpd[i] ] );
+        mergedWind.push([windDir[i], windSpd[i], monthArray[i], tempArray[i]]);
+      }
+      
+
+        if (monthID === 'January' || monthID === 'tempJanuary') {
+          mergedWind = mergedWind.filter((x) => x[2] === 1);
+          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+        } 
+        else if (monthID === 'February' || monthID === 'tempFebruary') {
+          mergedWind = mergedWind.filter((x) => x[2] === 2);
+          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+        }
+        else if (monthID === 'March' || monthID === 'tempMarch') {
+          mergedWind = mergedWind.filter((x) => x[2] === 3);
+          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+        }
+        else if (monthID === 'April' || monthID === 'tempApril') {
+          mergedWind = mergedWind.filter((x) => x[2] === 4);
+          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+        }
+        else if (monthID === 'May' || monthID === 'tempMay') {
+          mergedWind = mergedWind.filter((x) => x[2] === 5);
+          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+        }
+        else if (monthID === 'June' || monthID === 'tempJune') {
+          mergedWind = mergedWind.filter((x) => x[2] === 6);
+          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+        }
+        else if (monthID === 'July' || monthID === 'tempJuly') {
+          mergedWind = mergedWind.filter((x) => x[2] === 7);
+          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+        }
+        else if (monthID === 'August' || monthID === 'tempAugust') {
+          mergedWind = mergedWind.filter((x) => x[2] === 8);
+          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+        }
+        else if (monthID === 'September' || monthID === 'tempSeptember') {
+          mergedWind = mergedWind.filter((x) => x[2] === 9);
+          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+        }
+        else if (monthID === 'October' || monthID === 'tempOctober') {
+          mergedWind = mergedWind.filter((x) => x[2] === 10);
+          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+        }
+        else if (monthID === 'November' || monthID === 'tempNovember') {
+          mergedWind = mergedWind.filter((x) => x[2] === 11);
+          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+        }
+        else if (monthID === 'December' || monthID === 'tempDecember') {
+          mergedWind = mergedWind.filter((x) => x[2] === 12);
+          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+        }
+        else if (monthID === 'Year' || monthID === 'tempYear') {
+          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+        }
+        else if (monthID === 'Winter' || monthID === 'tempWinter') {
+          mergedWind = mergedWind.filter((x) => x[2] === 1 || x[2] === 2 || x[2] === 3);
+          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+        }
+        else if (monthID === 'Spring' || monthID === 'tempSpring') {
+          mergedWind = mergedWind.filter((x) => x[2] === 4 || x[2] === 5 || x[2] === 6);
+          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+        }
+        else if (monthID === 'Summer' || monthID === 'tempSummer') {
+          mergedWind = mergedWind.filter((x) => x[2] === 7 || x[2] === 8 || x[2] === 9);
+          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+        }
+        else if (monthID === 'Fall' || monthID === 'tempFall') {
+          mergedWind = mergedWind.filter((x) => x[2] === 10 || x[2] === 11 || x[2] === 12);
+          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+        }
+        
+        
+        
+
+
+        console.log('mergedWind')
+        console.log(mergedWind)
+        console.log(monthID)
+
+      
+
+      function createWindTempData (degree) {
+        const mergedWind2 = mergedWind.map(x => [x[0],x[2]]);
+        const degreesNum = mergedWind2.filter((x) => x[0] === degree);
+        
+        const tempByMonth = degreesNum.map(x => x[1])
+        console.log('tempByMonth')
+        console.log(tempByMonth)
+        const sum = tempByMonth.reduce((a, b) => a + b, 0);
+        const avg = (sum / tempByMonth.length) || 0;
+
+        console.log('avg')
+        console.log(avg)
+        return avg
       }
 
-      console.log('mergedWind')
-      console.log(mergedWind)
 
-
-
-
-
-
-
-
-
-
-
+  
       
       function createWindData(degree) {
 
-      const degreesNum = mergedWind.filter((x) => x[0] === degree);
 
-      const degreesNum_30 = degreesNum.filter((x) => x[1] < 40);
-      const degreesNum_40 = degreesNum.filter((x) => x[1] < 50 && x[1] >= 40);
-      const degreesNum_50 = degreesNum.filter((x) => x[1] < 60 && x[1] >= 50);
-      const degreesNum_60 = degreesNum.filter((x) => x[1] < 70 && x[1] >= 60);
-      const degreesNum_70 = degreesNum.filter((x) => x[1] < 80 && x[1] >= 70);
-      const degreesNum_80 = degreesNum.filter((x) => x[1] < 90 && x[1] >= 80);
-      const degreesNum_90 = degreesNum.filter((x) => x[1] < 100 && x[1] >= 90);
-      const degreesNum_100 = degreesNum.filter((x) => x[1] < 110 && x[1] >= 100);
-      const degreesNum_up110 = degreesNum.filter((x) => x[1] >= 100);
+        const entireLength = mergedWind.length
 
-      const percent_30 = (degreesNum_30.length / degreesNum.length) * 100
-      const percent_40 = (degreesNum_40.length / degreesNum.length) * 100
-      const percent_50 = (degreesNum_50.length / degreesNum.length) * 100
-      const percent_60 = (degreesNum_60.length / degreesNum.length) * 100
-      const percent_70 = (degreesNum_70.length / degreesNum.length) * 100
-      const percent_80 = (degreesNum_80.length / degreesNum.length) * 100
-      const percent_90 = (degreesNum_90.length / degreesNum.length) * 100
-      const percent_100 = (degreesNum_100.length / degreesNum.length) * 100
-      const percent_up110 = (degreesNum_up110.length / degreesNum.length) * 100
+        const mergedWind3 = mergedWind.map(x => [x[0],x[1]]);
+
+        const degreesNum = mergedWind3.filter((x) => x[0] === degree);
+        
+
+        const degreesNum_30 = degreesNum.filter((x) => x[1] < 40);
+        const degreesNum_40 = degreesNum.filter((x) => x[1] < 50 && x[1] >= 40);
+        const degreesNum_50 = degreesNum.filter((x) => x[1] < 60 && x[1] >= 50);
+        const degreesNum_60 = degreesNum.filter((x) => x[1] < 70 && x[1] >= 60);
+        const degreesNum_70 = degreesNum.filter((x) => x[1] < 80 && x[1] >= 70);
+        const degreesNum_80 = degreesNum.filter((x) => x[1] < 90 && x[1] >= 80);
+        const degreesNum_90 = degreesNum.filter((x) => x[1] < 100 && x[1] >= 90);
+        const degreesNum_100 = degreesNum.filter((x) => x[1] < 110 && x[1] >= 100);
+        const degreesNum_up110 = degreesNum.filter((x) => x[1] >= 100);
+
+        const percent_30 = (degreesNum_30.length / entireLength) * 100
+        const percent_40 = (degreesNum_40.length / entireLength) * 100
+        const percent_50 = (degreesNum_50.length / entireLength) * 100
+        const percent_60 = (degreesNum_60.length / entireLength) * 100
+        const percent_70 = (degreesNum_70.length / entireLength) * 100
+        const percent_80 = (degreesNum_80.length / entireLength) * 100
+        const percent_90 = (degreesNum_90.length / entireLength) * 100
+        const percent_100 = (degreesNum_100.length / entireLength) * 100
+        const percent_up110 = (degreesNum_up110.length / entireLength) * 100
+        
 
       return [percent_30, percent_40, percent_50, percent_60]
 
     }
 
+    console.log('mergedWind1')
+    console.log(mergedWind)
     
     for (var i = 1; i < 37; i++) {
         this["percent" + i] = createWindData(i)
-    };
+    }; 
+
+    console.log('mergedWind2')
+    console.log(mergedWind)
+
+    for (var i = 1; i < 37; i++) {
+      this['tempAvg' + i] = createWindTempData(i)
+    }
+
+
+    console.log('tempAdsdsdsvg1')
+    console.log(tempAvg1)
 
     console.log('percent5')
     console.log(percent5)
@@ -518,9 +687,10 @@ let windDir = []
     const angle2 = angle.map(x => x+1)
     
     const angle3 = angle2.flatMap(i => [i,i,i,i]);
-    console.log('angle3')
-    console.log(angle3)
-    console.log(angle3.length)
+    
+
+    console.log('tempAvg1')
+    console.log(tempAvg36)
 
 
 
@@ -528,7 +698,7 @@ let windDir = []
 
     var speedArray = [];
 
-    //speedArray = speedData.concat(speedData);
+    
 
 
     for (var i = 0; i < 36; i++) {
@@ -541,58 +711,154 @@ let windDir = []
     //     percentArray += percent[i].concat(percent[i] + 1)
  //   }
 
-    var percentArray = percent1.concat(percent2,percent3,percent4,percent5,percent6,percent7,percent8,percent9,percent10,percent11,percent12,percent13,percent14,percent15,percent16,percent17,percent18,percent19,percent20,percent21,percent22,percent23,percent24,percent25,percent26,percent27,percent28,percent29,percent30,percent31,percent32,percent33,percent34,percent35,percent36)
+    var percentArray = percent1.concat(percent2,percent3,percent4,percent5,percent6,percent7,percent8,percent9,percent10,percent11,percent12,percent13,percent14,percent15,percent16,percent17,percent18,percent19,percent20,percent21,percent22,percent23,percent24,percent25,percent26,percent27,percent28,percent29,percent30,percent31,percent32,percent33,percent34,percent35,percent36);
 
-   // var pepe = percent5.slice(0,4);
-    
+    var tempByWindDirArray = [tempAvg1];
+    var tempByWindDirArray = tempByWindDirArray.concat(tempAvg2,tempAvg3,tempAvg4,tempAvg5,tempAvg6,tempAvg7,tempAvg8,tempAvg9,tempAvg10,tempAvg11,tempAvg12,tempAvg13,tempAvg14,tempAvg15,tempAvg16,tempAvg17,tempAvg18,tempAvg19,tempAvg20,tempAvg21,tempAvg22,tempAvg23,tempAvg24,tempAvg25,tempAvg26,tempAvg27,tempAvg28,tempAvg29,tempAvg30,tempAvg31,tempAvg32,tempAvg33,tempAvg34,tempAvg35,tempAvg36);
 
-    console.log('percent1')
-    console.log(percent1)
-
-    console.log('percent2')
-    console.log(percent2)
-
-    console.log('percent3')
-    console.log(percent3)
 
     
-    console.log('percentArray')
-    console.log(percentArray)
+    
+    
 
-
-    console.log('length')
-    console.log(angle3.length)
-
-    console.log('length')
-    console.log(speedArray.length)
-
-    console.log('length')
-    console.log(percentArray.length)
+    var finalArray = [];
+    for (var i = 0; i < angle3.length; i++) {
+        finalArray.push([angle3[i]*10, speedArray[i], percentArray[i]]);
+      };
 
 
 
 
+    let cheat = Array(36).fill(0.1);
+    cheat = cheat.map(String);
 
 
-    var finalArray = []
-    for ( var i = 0; i < angle3.length; i++ ) {
-        finalArray.push( [ angle3[i], speedArray[i], percentArray[i]] );
+    
+
+    var finalTempByWindDirArray = [];
+    for (var i = 0; i < angle2.length; i++) {
+      finalTempByWindDirArray.push([angle2[i]*10, cheat[i], tempByWindDirArray[i]]);
+    };
+    
+
+
+    var windObj = finalArray.map(x => ({
+        angle: x[0],
+        speed: x[1],
+        percent: x[2]
+    }));
+
+
+    console.log('windObj')
+    console.log(windObj)
+
+
+
+    var tempObj = finalTempByWindDirArray.map(x => ({
+      angle: x[0],
+      speed: x[1],
+      percent: x[2]
+    }));
+
+
+
+    console.log('windObj')
+    console.log(windObj)
+
+    console.log('tempObj')
+    console.log(tempObj)
+
+
+
+      
+      
+
+
+      function renderChart(data) { 
+        return JSC.chart('chartDiv', { 
+          debug: true, 
+          type: 'radar column', 
+          animation_duration: 1000, 
+          title: { 
+            label_text: 'Rose des vent', 
+            position: 'center'
+          }, 
+          legend: { 
+            title_label_text: 'Vitesse des rafales (en km/h)', 
+            position: 'bottom', 
+            template: '%icon %name', 
+            reversed: true
+          }, 
+          annotations: [ 
+            { 
+              label: { 
+                text: '', 
+                style_fontSize: 14 
+              }, 
+              position: 'inside bottom right'
+            } 
+          ], 
+          defaultSeries_shape_padding: 0.02, 
+          yAxis: { 
+            defaultTick_label_text: '%value%', 
+            scale: { type: 'stacked' }, 
+            alternateGridFill: 'none'
+          }, 
+          xAxis: { 
+            scale: { range: [0, 360], interval: 45 }, 
+            customTicks: [ 
+              { value: 360, label_text: 'N' }, 
+              { value: 45, label_text: 'NE' }, 
+              { value: 90, label_text: 'E' }, 
+              { value: 135, label_text: 'SE' }, 
+              { value: 180, label_text: 'S' }, 
+              { value: 225, label_text: 'SW' }, 
+              { value: 270, label_text: 'W' }, 
+              { value: 315, label_text: 'NW' } 
+            ] 
+          }, 
+          palette: [ 
+            '#c62828', 
+            '#ff7043', 
+            '#fff176', 
+            '#aed581', 
+            '#80cbc4', 
+            '#bbdefb'
+          ], 
+          defaultPoint: { 
+            tooltip: 
+              '<b>%seriesName</b> %xValue° %yValue%'
+          }, 
+          series: JSC.nest() 
+            .key('speed') 
+            .key('angle') 
+            .rollup('percent') 
+            .series(data)
+            .reverse() 
+        }); 
+      } 
+
+
+      
+
+
+      if (monthID === 'January' || monthID === 'February' || monthID === 'March' || monthID === 'April' || monthID === 'May' || monthID === 'June' || monthID === 'July' || monthID === 'August' || monthID === 'September' || monthID === 'October' || monthID === 'November' || monthID === 'December' || monthID === 'Year' || monthID === 'Winter' || monthID === 'Spring' || monthID === 'Summer' || monthID === 'Fall') {
+        chart = renderChart(windObj); 
       }
 
-     
-      console.log('finalArray')
-      console.log(finalArray)
 
-      //const january = januaryData.map(x => x[0]);
-
-    
+      if (monthID === 'tempJanuary' || monthID === 'tempFebruary' || monthID === 'tempMarch' || monthID === 'tempApril' || monthID === 'tempMay' || monthID === 'tempJune' || monthID === 'tempJuly' || monthID === 'tempAugust' || monthID === 'tempSeptember' || monthID === 'tempOctober' || monthID === 'tempNovember' || monthID === 'tempDecember' || monthID === 'tempYear' || monthID === 'tempWinter' || monthID === 'tempSpring' || monthID === 'tempSummer' || monthID === 'tempFall') {
+        chart = renderChart(tempObj); 
+      }
 });
+}
 
 
 
+  
 
     
-        
+
     
      //   let windSpeed = []
     //    for (let x of jsondata) {
