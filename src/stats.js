@@ -5,7 +5,7 @@ function yearSelection(yearID) {
 
 //year = '2019'
 
-fetch(`./CYUL ${yearID}_EN.json`)
+fetch(`./data/CYUL ${yearID}_EN.json`)
 .then(response => {
    return response.json();
 })
@@ -17,6 +17,9 @@ fetch(`./CYUL ${yearID}_EN.json`)
     for (let x of jsondata) {
         data_string += x["Max Temp (�C)"]  + ","
     }
+
+    console.log(data_string)
+    console.log("data_string")
 
 
     // Generate an array of strings
@@ -317,70 +320,50 @@ fetch(`./CYUL ${yearID}_EN.json`)
 
 
 }
+/*
+console.log("ICIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")
+export function test(x) {
+  if (x>5) {
+    console.log("reussi");
+  } else {
+    console.log("rate");
+  }
+}
 
-
-
-
+test(6);
+*/
 function monthSelection(monthID) {
 
 
+// Construct array of path to data files
 
-allYearsID = [2019, 2020];
-console.log('typeof allYearsID[0]')
-console.log(typeof allYearsID[0])
-console.log(typeof allYearsID)
-console.log(allYearsID)
-
-
-startYear = 2002
-allYearsData = Array.from(Array(20).keys())
-sampleYears = []
-for (i = 0; i < allYearsData.length; i++) {
-    sampleYears += allYearsData[i] + startYear + ","
+let startYear = 2002 //Correspond to oldest year of data files
+let allYears = Array.from(Array(20).keys())
+let period = []
+for (var i = 0; i < allYears.length; i++) {
+    period += allYears[i] + startYear + ","
 }
-console.log('sampleYears')
-console.log(sampleYears)
+
+// Create array of strings
+period = period.split(",")
+period = period.splice(0, period.length-1); // Remove the last empty item due to "," in the for loop
 
 
-sampleYears = sampleYears.split(",")
-console.log('sampleYears')
-console.log(sampleYears)
-
-
-sampleYears = sampleYears.map(str => {
+// Create array of numbers
+period = period.map(str => {
     return Number(str);
 })
 
 
-console.log('sampleYears')
-console.log(sampleYears)
-
-urlsSample = []
-for (i = 0; i < sampleYears.length; i++) {
-    urlsSample += `./CYUL ${sampleYears[i]}_EN.json` + ','
-}
-
-urlsSample = urlsSample.split(",")
 
 
-
-console.log('urlsSample')
-console.log(urlsSample)
-
-
-
-
-urls = []
-for (i = 0; i < urlsSample.length; i++) {
-    urls += urlsSample[i] + ','
+let urls = []
+for (var i = 0; i < period.length; i++) {
+  urls += `./data/CYUL ${period[i]}_EN.json` + ','
 }
 
 urls = urls.split(",")
-urls = urls.splice(0, urls.length-3)
-
-console.log('urls')
-console.log(urls)
-console.log(typeof urls[0])
+urls = urls.splice(0, urls.length-1);
 
 
 
@@ -388,232 +371,159 @@ console.log(typeof urls[0])
 
 
 
-const requests = urls.map(u=>fetch(u));
+
+// // Load geoJSON data from every files
 
 Promise.all(urls.map(u=>fetch(u).then(responses => responses.json())
     )
 
 ).then(data => {
-    finalResult = data.flat();
+    let loadedData = data.flat();
 
 
 
-    let windSpd = []
-    for (let x of finalResult) {
-        windSpd += x["Spd of Max Gust (km/h)"]  + ","
-    }
-    windSpd = windSpd.split(",")
+// Test pour mettre la recherche d'une variable dans une fontion //
+    function retrieveData(stringName) {
 
-    console.log('windSpd')
-    console.log(windSpd)
-
-    
-// Replace undefined data by NaNs 
-function getAllIndexes(arr, val) {
-    var windIndexes = [], i;
-    for(i = 0; i < arr.length; i++)
-        if (arr[i] === val)
-        windIndexes.push(i);
-    return windIndexes;
-}
-
-var windIndexes = getAllIndexes(windSpd, "");
-
-function myFunction(item, index) {
-    if (item !== -1) {
-        windSpd[item] = NaN;
-    }
-}
-windIndexes.forEach(myFunction);
-
-console.log("windSpd2")
-console.log(windSpd)
-
-
-    windSpd = windSpd.map(str => {
-        return Number(str);
-    })
-
-    console.log("windSpd3")
-console.log(windSpd)
-
-
-
-let windDir = []
-    for (let x of finalResult) {
-        windDir += x["Dir of Max Gust (10s deg)"]  + ","
-    }
-    windDir = windDir.split(",")
-
-    
-    var windIndexes2 = getAllIndexes(windDir, "");
-
-
-    function myFunction2(item, index) {
-        if (item !== -1) {
-            windDir[item] = NaN;
-        }
-    }
-    windIndexes2.forEach(myFunction2);
-
-    windDir = windDir.map(str => {
-        return Number(str);
-    })
-
-    console.log('windDir')
-    console.log(windDir)
-
-    
-
-
-
-
-    let monthDate = []
-    for (let x of finalResult) {
-      monthDate += x["Month"]  + ","
-    }
-    monthDate = monthDate.split(",")
-
-    
-    var monthIndexes = getAllIndexes(monthDate, "");
-
-
-    function myFunction3(item, index) {
-        if (item !== -1) {
-          monthDate[item] = NaN;
-        }
-    }
-    monthIndexes.forEach(myFunction3);
-
-    monthArray = monthDate.map(str => {
-        return Number(str);
-    })
-
-    console.log('monthArray')
-    console.log(monthArray)
-
-
-    let tempDate = []
-    for (let x of finalResult) {
-      tempDate += x["Max Temp (�C)"]  + ","
-    }
-    tempDate = tempDate.split(",")
-
-    
-    var tempIndexes = getAllIndexes(tempDate, "");
-
-
-    function myFunction4(item, index) {
-        if (item !== -1) {
-          tempDate[item] = NaN;
-        }
-    }
-    tempIndexes.forEach(myFunction4);
-
-    tempArray = tempDate.map(str => {
-        return Number(str);
-    })
-
-    console.log('tempDate')
-    console.log(tempDate)
-
-
-
-
-
-
-
-
-    let mergedWind = []
-
-    for ( var i = 0; i < windSpd.length; i++ ) {
-        mergedWind.push([windDir[i], windSpd[i], monthArray[i], tempArray[i]]);
+      let dataTitle = []
+      for (let x of loadedData) {
+        dataTitle += x[stringName] + "," 
       }
-      
+      dataTitle = dataTitle.split(",")
+
+      function getAllIndexes(arr, val) {
+        var dataIndexes = [], i;
+        for(var i = 0; i < arr.length; i++)
+            if (arr[i] === val)
+            dataIndexes.push(i);
+        return dataIndexes;
+      }
+
+      var dataIndexes = getAllIndexes(dataTitle, "");
+    
+      function insertNaN(item, index) {
+        if (item !== -1) {
+          dataTitle[item] = NaN;
+        }
+      }
+      dataIndexes.forEach(insertNaN);
+
+      dataTitle = dataTitle.map(str => {
+        return Number(str);
+      })
+
+      return dataTitle 
+    }
+
+
+    let variable1 = "Spd of Max Gust (km/h)";
+    let variable2 = "Dir of Max Gust (10s deg)";
+    let variable3 = "Month";
+    let variable4 = "Max Temp (�C)";
+
+
+    let windSpd = retrieveData(variable1);
+    let windDir = retrieveData(variable2);
+    let months = retrieveData(variable3);
+    let maxTemp = retrieveData(variable4);
+
+
+
+
+
+
+
+
+// Create array with all variables
+
+    let dataArray = []
+    for ( var i = 0; i < windSpd.length; i++ ) {
+      dataArray.push([windDir[i], windSpd[i], months[i], maxTemp[i]]);
+      }
+
+
+
+      // Construct periods of data
 
         if (monthID === 'January' || monthID === 'tempJanuary') {
-          mergedWind = mergedWind.filter((x) => x[2] === 1);
-          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+          dataArray = dataArray.filter((x) => x[2] === 1);
+          dataArray = dataArray.map(x => [x[0],x[1],x[3]]);
         } 
         else if (monthID === 'February' || monthID === 'tempFebruary') {
-          mergedWind = mergedWind.filter((x) => x[2] === 2);
-          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+          dataArray = dataArray.filter((x) => x[2] === 2);
+          dataArray = dataArray.map(x => [x[0],x[1],x[3]]);
         }
         else if (monthID === 'March' || monthID === 'tempMarch') {
-          mergedWind = mergedWind.filter((x) => x[2] === 3);
-          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+          dataArray = dataArray.filter((x) => x[2] === 3);
+          dataArray = dataArray.map(x => [x[0],x[1],x[3]]);
         }
         else if (monthID === 'April' || monthID === 'tempApril') {
-          mergedWind = mergedWind.filter((x) => x[2] === 4);
-          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+          dataArray = dataArray.filter((x) => x[2] === 4);
+          dataArray = dataArray.map(x => [x[0],x[1],x[3]]);
         }
         else if (monthID === 'May' || monthID === 'tempMay') {
-          mergedWind = mergedWind.filter((x) => x[2] === 5);
-          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+          dataArray = dataArray.filter((x) => x[2] === 5);
+          dataArray = dataArray.map(x => [x[0],x[1],x[3]]);
         }
         else if (monthID === 'June' || monthID === 'tempJune') {
-          mergedWind = mergedWind.filter((x) => x[2] === 6);
-          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+          dataArray = dataArray.filter((x) => x[2] === 6);
+          dataArray = dataArray.map(x => [x[0],x[1],x[3]]);
         }
         else if (monthID === 'July' || monthID === 'tempJuly') {
-          mergedWind = mergedWind.filter((x) => x[2] === 7);
-          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+          dataArray = dataArray.filter((x) => x[2] === 7);
+          dataArray = dataArray.map(x => [x[0],x[1],x[3]]);
         }
         else if (monthID === 'August' || monthID === 'tempAugust') {
-          mergedWind = mergedWind.filter((x) => x[2] === 8);
-          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+          dataArray = dataArray.filter((x) => x[2] === 8);
+          dataArray = dataArray.map(x => [x[0],x[1],x[3]]);
         }
         else if (monthID === 'September' || monthID === 'tempSeptember') {
-          mergedWind = mergedWind.filter((x) => x[2] === 9);
-          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+          dataArray = dataArray.filter((x) => x[2] === 9);
+          dataArray = dataArray.map(x => [x[0],x[1],x[3]]);
         }
         else if (monthID === 'October' || monthID === 'tempOctober') {
-          mergedWind = mergedWind.filter((x) => x[2] === 10);
-          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+          dataArray = dataArray.filter((x) => x[2] === 10);
+          dataArray = dataArray.map(x => [x[0],x[1],x[3]]);
         }
         else if (monthID === 'November' || monthID === 'tempNovember') {
-          mergedWind = mergedWind.filter((x) => x[2] === 11);
-          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+          dataArray = dataArray.filter((x) => x[2] === 11);
+          dataArray = dataArray.map(x => [x[0],x[1],x[3]]);
         }
         else if (monthID === 'December' || monthID === 'tempDecember') {
-          mergedWind = mergedWind.filter((x) => x[2] === 12);
-          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+          dataArray = dataArray.filter((x) => x[2] === 12);
+          dataArray = dataArray.map(x => [x[0],x[1],x[3]]);
         }
         else if (monthID === 'Year' || monthID === 'tempYear') {
-          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+          dataArray = dataArray.map(x => [x[0],x[1],x[3]]);
         }
         else if (monthID === 'Winter' || monthID === 'tempWinter') {
-          mergedWind = mergedWind.filter((x) => x[2] === 1 || x[2] === 2 || x[2] === 3);
-          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+          dataArray = dataArray.filter((x) => x[2] === 1 || x[2] === 2 || x[2] === 3);
+          dataArray = dataArray.map(x => [x[0],x[1],x[3]]);
         }
         else if (monthID === 'Spring' || monthID === 'tempSpring') {
-          mergedWind = mergedWind.filter((x) => x[2] === 4 || x[2] === 5 || x[2] === 6);
-          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+          dataArray = dataArray.filter((x) => x[2] === 4 || x[2] === 5 || x[2] === 6);
+          dataArray = dataArray.map(x => [x[0],x[1],x[3]]);
         }
         else if (monthID === 'Summer' || monthID === 'tempSummer') {
-          mergedWind = mergedWind.filter((x) => x[2] === 7 || x[2] === 8 || x[2] === 9);
-          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+          dataArray = dataArray.filter((x) => x[2] === 7 || x[2] === 8 || x[2] === 9);
+          dataArray = dataArray.map(x => [x[0],x[1],x[3]]);
         }
         else if (monthID === 'Fall' || monthID === 'tempFall') {
-          mergedWind = mergedWind.filter((x) => x[2] === 10 || x[2] === 11 || x[2] === 12);
-          mergedWind = mergedWind.map(x => [x[0],x[1],x[3]]);
+          dataArray = dataArray.filter((x) => x[2] === 10 || x[2] === 11 || x[2] === 12);
+          dataArray = dataArray.map(x => [x[0],x[1],x[3]]);
         }
         
         
         
 
 
-        console.log('mergedWind')
-        console.log(mergedWind)
-        console.log(monthID)
-
-      
+      // Function to return the average temperature by month for specifics wind directions
 
       function createWindTempData (degree) {
-        const mergedWind2 = mergedWind.map(x => [x[0],x[2]]);
-        const degreesNum = mergedWind2.filter((x) => x[0] === degree);
+        const windTempArray = dataArray.map(x => [x[0],x[2]]);     // x[0] is the wind direction, x[2] is the temperature in the dataArray matrice 
+        const degreesNum = windTempArray.filter((x) => x[0] === degree);  // keeping only rows that match a specific direction 
         
-        const tempByMonth = degreesNum.map(x => x[1])
+        const tempByMonth = degreesNum.map(x => x[1])  // Due to the 'map' functionnality that deleted column, the temperature of the matrice mergedWind2 was x[1]
         console.log('tempByMonth')
         console.log(tempByMonth)
         const sum = tempByMonth.reduce((a, b) => a + b, 0);
@@ -624,18 +534,20 @@ let windDir = []
         return avg
       }
 
-
-  
+      
+  // Function to return wind speed for each direction 
       
       function createWindData(degree) {
 
 
-        const entireLength = mergedWind.length
+        const arrayLength = dataArray.length
 
-        const mergedWind3 = mergedWind.map(x => [x[0],x[1]]);
+        const WindDirSpdArray = dataArray.map(x => [x[0],x[1]]);  // x[0] is the wind direction, [1] is the wind speed in the dataArray matrice
 
-        const degreesNum = mergedWind3.filter((x) => x[0] === degree);
+        const degreesNum = WindDirSpdArray.filter((x) => x[0] === degree);  // Keeping only rows that match a specific direction 
         
+
+        // For one direction, create multiple arrays according to wind gust speed
 
         const degreesNum_30 = degreesNum.filter((x) => x[1] < 40);
         const degreesNum_40 = degreesNum.filter((x) => x[1] < 50 && x[1] >= 40);
@@ -647,30 +559,34 @@ let windDir = []
         const degreesNum_100 = degreesNum.filter((x) => x[1] < 110 && x[1] >= 100);
         const degreesNum_up110 = degreesNum.filter((x) => x[1] >= 100);
 
-        const percent_30 = (degreesNum_30.length / entireLength) * 100
-        const percent_40 = (degreesNum_40.length / entireLength) * 100
-        const percent_50 = (degreesNum_50.length / entireLength) * 100
-        const percent_60 = (degreesNum_60.length / entireLength) * 100
-        const percent_70 = (degreesNum_70.length / entireLength) * 100
-        const percent_80 = (degreesNum_80.length / entireLength) * 100
-        const percent_90 = (degreesNum_90.length / entireLength) * 100
-        const percent_100 = (degreesNum_100.length / entireLength) * 100
-        const percent_up110 = (degreesNum_up110.length / entireLength) * 100
+
+        // Occurrence in percent for each of these array 
+
+        const percent_30 = (degreesNum_30.length / arrayLength) * 100
+        const percent_40 = (degreesNum_40.length / arrayLength) * 100
+        const percent_50 = (degreesNum_50.length / arrayLength) * 100
+        const percent_60 = (degreesNum_60.length / arrayLength) * 100
+        const percent_70 = (degreesNum_70.length / arrayLength) * 100
+        const percent_80 = (degreesNum_80.length / arrayLength) * 100
+        const percent_90 = (degreesNum_90.length / arrayLength) * 100
+        const percent_100 = (degreesNum_100.length / arrayLength) * 100
+        const percent_up110 = (degreesNum_up110.length / arrayLength) * 100
         
 
       return [percent_30, percent_40, percent_50, percent_60]
 
     }
 
-    console.log('mergedWind1')
-    console.log(mergedWind)
+    console.log('dataArray')
+    console.log(dataArray)
     
+    // Loop the functions for every 360 degrees with an increment of 10
     for (var i = 1; i < 37; i++) {
         this["percent" + i] = createWindData(i)
     }; 
 
-    console.log('mergedWind2')
-    console.log(mergedWind)
+    console.log('dataArray')
+    console.log(dataArray)
 
     for (var i = 1; i < 37; i++) {
       this['tempAvg' + i] = createWindTempData(i)
@@ -683,33 +599,28 @@ let windDir = []
     console.log('percent5')
     console.log(percent5)
 
+    // Create array with angles to make the chart
+
     const angle = Array.from(Array(36).keys())
+
+    
     const angle2 = angle.map(x => x+1)
     
-    const angle3 = angle2.flatMap(i => [i,i,i,i]);
+    const angle3 = angle2.flatMap(i => [i,i,i,i]);  // Numbers of i must be the same as the number of element returned with the createWindData function
     
 
-    console.log('tempAvg1')
-    console.log(tempAvg36)
+  
 
+    // Create an array with the speed ranges 
 
-
-    var speedData = ['30-39', '40-49', '50-59', '60-69'];
-
-    var speedArray = [];
-
-    
-
-
+    var speeds = ['30-39', '40-49', '50-59', '60-69']; // Numbers of item must be the same as the number of element returned with the createWindData function
+    var speedsArray = [];
     for (var i = 0; i < 36; i++) {
-        speedArray = speedArray.concat(speedData);
+        speedsArray = speedsArray.concat(speeds);
     }
-    //speedArray = speedData.concat(speedData)
+    
 
-   // var percentArray = []
- //   for (var i = 1; i < 37; i++) {
-    //     percentArray += percent[i].concat(percent[i] + 1)
- //   }
+    // Combine all data by angles into one array
 
     var percentArray = percent1.concat(percent2,percent3,percent4,percent5,percent6,percent7,percent8,percent9,percent10,percent11,percent12,percent13,percent14,percent15,percent16,percent17,percent18,percent19,percent20,percent21,percent22,percent23,percent24,percent25,percent26,percent27,percent28,percent29,percent30,percent31,percent32,percent33,percent34,percent35,percent36);
 
@@ -719,27 +630,28 @@ let windDir = []
 
     
     
-    
+    // Create array that regroup all variables needed to make the chart
 
     var finalArray = [];
     for (var i = 0; i < angle3.length; i++) {
-        finalArray.push([angle3[i]*10, speedArray[i], percentArray[i]]);
+        finalArray.push([angle3[i]*10, speedsArray[i], percentArray[i]]);
       };
 
 
 
 
+    // Need a third column in array for the temp by wind so the code for the chart can work
     let cheat = Array(36).fill(0.1);
     cheat = cheat.map(String);
 
-
-    
 
     var finalTempByWindDirArray = [];
     for (var i = 0; i < angle2.length; i++) {
       finalTempByWindDirArray.push([angle2[i]*10, cheat[i], tempByWindDirArray[i]]);
     };
     
+
+
 
 
     var windObj = finalArray.map(x => ({
@@ -753,7 +665,7 @@ let windDir = []
     console.log(windObj)
 
 
-
+// Create object with names for the columns (needed for the chart)
     var tempObj = finalTempByWindDirArray.map(x => ({
       angle: x[0],
       speed: x[1],
@@ -851,7 +763,7 @@ let windDir = []
         chart = renderChart(tempObj); 
       }
 });
-}
+};
 
 
 
