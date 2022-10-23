@@ -332,7 +332,11 @@ export function test(x) {
 
 test(6);
 */
-function monthSelection(monthID) {
+function monthSelection(stationID, monthID) {
+
+
+//let monthID = event.target.id;
+console.log(monthID)
 
 
 // Construct array of path to data files
@@ -359,7 +363,7 @@ period = period.map(str => {
 
 let urls = []
 for (var i = 0; i < period.length; i++) {
-  urls += `./data/CYUL ${period[i]}_EN.json` + ','
+  urls += `./data/${stationID} ${period[i]}_EN.json` + ','
 }
 
 urls = urls.split(",")
@@ -538,11 +542,14 @@ Promise.all(urls.map(u=>fetch(u).then(responses => responses.json())
   // Function to return wind speed for each direction 
       
       function createWindData(degree) {
+        
 
-
+       
         const arrayLength = dataArray.length
 
         const WindDirSpdArray = dataArray.map(x => [x[0],x[1]]);  // x[0] is the wind direction, [1] is the wind speed in the dataArray matrice
+
+   
 
         const degreesNum = WindDirSpdArray.filter((x) => x[0] === degree);  // Keeping only rows that match a specific direction 
         
@@ -571,6 +578,7 @@ Promise.all(urls.map(u=>fetch(u).then(responses => responses.json())
         const percent_90 = (degreesNum_90.length / arrayLength) * 100
         const percent_100 = (degreesNum_100.length / arrayLength) * 100
         const percent_up110 = (degreesNum_up110.length / arrayLength) * 100
+
         
 
       return [percent_30, percent_40, percent_50, percent_60]
@@ -579,17 +587,31 @@ Promise.all(urls.map(u=>fetch(u).then(responses => responses.json())
 
     console.log('dataArray')
     console.log(dataArray)
+
+    let angles = Array.from(Array(36).keys())
+
     
     // Loop the functions for every 360 degrees with an increment of 10
-    for (var i = 1; i < 37; i++) {
-        this["percent" + i] = createWindData(i)
+    
+    for (var i = 1; i < 37; i++) { 
+      
+      window["percent" + i] = createWindData(i);
+     
+       
     }; 
+    
+    console.log('percent1')
+    console.log(percent1)
 
-    console.log('dataArray')
-    console.log(dataArray)
+    console.log('percent2')
+    console.log(percent2)
+
+    console.log('percent3')
+    console.log(percent3)
+
 
     for (var i = 1; i < 37; i++) {
-      this['tempAvg' + i] = createWindTempData(i)
+      window['tempAvg' + i] = createWindTempData(i)
     }
 
 
@@ -687,13 +709,13 @@ Promise.all(urls.map(u=>fetch(u).then(responses => responses.json())
 
 
       function renderChart(data) { 
-        return JSC.chart('chartDiv', { 
+        let myChart =  JSC.chart('windChartID', {                         // remettre 'toggles' si je veux que ça prenne toute la place dans le 'div' 'toggles'
           debug: true, 
           type: 'radar column', 
           animation_duration: 1000, 
           title: { 
-            label_text: 'Rose des vent', 
-            position: 'center'
+            label_text: 'Rose des vents', 
+            position: 'center',
           }, 
           legend: { 
             title_label_text: 'Vitesse des rafales (en km/h)', 
@@ -748,6 +770,7 @@ Promise.all(urls.map(u=>fetch(u).then(responses => responses.json())
             .series(data)
             .reverse() 
         }); 
+        return myChart
       } 
 
 
@@ -755,15 +778,20 @@ Promise.all(urls.map(u=>fetch(u).then(responses => responses.json())
 
 
       if (monthID === 'January' || monthID === 'February' || monthID === 'March' || monthID === 'April' || monthID === 'May' || monthID === 'June' || monthID === 'July' || monthID === 'August' || monthID === 'September' || monthID === 'October' || monthID === 'November' || monthID === 'December' || monthID === 'Year' || monthID === 'Winter' || monthID === 'Spring' || monthID === 'Summer' || monthID === 'Fall') {
-        chart = renderChart(windObj); 
+        renderChart(windObj); 
       }
 
 
       if (monthID === 'tempJanuary' || monthID === 'tempFebruary' || monthID === 'tempMarch' || monthID === 'tempApril' || monthID === 'tempMay' || monthID === 'tempJune' || monthID === 'tempJuly' || monthID === 'tempAugust' || monthID === 'tempSeptember' || monthID === 'tempOctober' || monthID === 'tempNovember' || monthID === 'tempDecember' || monthID === 'tempYear' || monthID === 'tempWinter' || monthID === 'tempSpring' || monthID === 'tempSummer' || monthID === 'tempFall') {
-        chart = renderChart(tempObj); 
+        renderChart(tempObj); 
       }
 });
 };
+
+
+export {monthSelection}
+
+//document.getElementById('January').addEventListener('click', monthSelection)
 
 
 
