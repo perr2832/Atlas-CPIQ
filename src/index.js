@@ -496,6 +496,29 @@ function initMap() {
         info.appendChild(newNode);
     }); 
 
+    var arrowRight = document.getElementById("arrowRight");
+    var toggles = document.getElementById("toggles");
+    var myMap = document.getElementById("map");
+    
+
+    arrowRight.addEventListener("click", () => {
+      console.log("HIIIII")
+      //toggles.style.resize = 'horizontal'
+      myMap.style.height = '30%';
+      toggles.style.width = '700%';
+      arrowRight.style.visibility = "hidden";
+      arrowLeft.style.visibility = "visible";
+      
+    });
+
+    arrowLeft.addEventListener("click", () => {
+      myMap.style.height = '100%';
+      toggles.style.width = '100%';
+      arrowRight.style.visibility = 'visible';
+      arrowLeft.style.visibility = 'hidden';
+    });
+    
+
     markerLayer.addListener("click", (event) => {
     // Get Geojson info to display.
     let stationName = event.feature.getProperty("name");
@@ -584,15 +607,16 @@ function initMap() {
 
     let monthID = 'Year'
 
-    var div2 = document.getElementById("toggles");
-    while (div2.firstChild) {
-      div2.removeChild(div2.firstChild);
-    }
+    var div2 = document.getElementById("graphics");
+   // while (div2.firstChild) {
+   //   div2.removeChild(div2.firstChild);
+   // }
 
     // Insert new info in bar
     var windChart = document.createElement("div");
     windChart.id = "windChartID";
-    windChart.style.height = "300px";
+    windChart.style.height = "400px";
+    //windChart.style.top = "60px";
     
   
 
@@ -604,27 +628,176 @@ function initMap() {
     
 
     
+ 
+    
+    arrowRight.addEventListener("click", () => {
+      console.log("HIIIII")
+      //toggles.style.resize = 'horizontal'
+      div2.style.width = "50%";
+    });
+   
+    arrowLeft.addEventListener("click", () => {
+      console.log("HIIIII")
+      //toggles.style.resize = 'horizontal'
+      div2.style.width = "100%";
+    });
 
 
     var button1 = document.createElement("button");
-    button1.id = "January"
-    button1.innerHTML = "January";
+    button1.id = "dataSelect"
+    button1.innerHTML = "Changer de variable";
+ 
     div2.appendChild(button1);
+    console.log(typeof button1)
+    console.log(button1)
+    button1.addEventListener('click', () => {
+      div2.innerHTML = "";
+      var windJanuary = document.createElement("button");
+      var windFebruary = document.createElement("button");
+      var windMarch = document.createElement("button");
+      var windApril = document.createElement("button");
+      var windMay = document.createElement("button");
+      var windJune = document.createElement("button");
+      var windJuly = document.createElement("button");
+      var windAugust = document.createElement("button");
+      var windSeptember = document.createElement("button");
+      var windOctober = document.createElement("button");
+      var windNovember = document.createElement("button");
+      var windDecember = document.createElement("button");
+
+      div2.appendChild(windJanuary);
+      div2.appendChild(windFebruary);
+      div2.appendChild(windMarch);
+      div2.appendChild(windApril);
+      div2.appendChild(windMay);
+      div2.appendChild(windJune);
+      div2.appendChild(windJuly);
+      div2.appendChild(windAugust);
+      div2.appendChild(windSeptember);
+      div2.appendChild(windOctober);
+      div2.appendChild(windNovember);
+      div2.appendChild(windDecember);
+
+
+
+      windJanuary.id = "January";
+      windFebruary.id = "February";
+      windMarch.id = "March";
+      windApril.id = "April";
+      windMay.id = "May";
+      windJune.id = "June";
+      windJuly.id = "July";
+      windAugust.id = "August";
+      windSeptember.id = "September";
+      windOctober.id = "October";
+      windNovember.id = "November";
+      windDecember.id = "December";
+
+      windJanuary.addEventListener('click', (event) => {
+        monthID = (event.srcElement.id);
+        windChart.innerHTML = monthSelection(stationCode.TC, monthID);
+        div2.appendChild(windChart);
+      });
+
+      windFebruary.addEventListener('click', (event) => {
+        monthID = (event.srcElement.id);
+        windChart.innerHTML = monthSelection(stationCode.TC, monthID);
+        div2.appendChild(windChart);
+      });
+
+      windMarch.addEventListener('click', (event) => {
+        monthID = (event.srcElement.id);
+        windChart.innerHTML = monthSelection(stationCode.TC, monthID);
+        div2.appendChild(windChart);
+      });
+
+      windApril.addEventListener('click', (event) => {
+        monthID = (event.srcElement.id);
+        windChart.innerHTML = monthSelection(stationCode.TC, monthID);
+        div2.appendChild(windChart);
+      });
+
+      windMay.addEventListener('click', (event) => {
+        monthID = (event.srcElement.id);
+        windChart.innerHTML = monthSelection(stationCode.TC, monthID);
+        div2.appendChild(windChart);
+      });
+
+      windJune.addEventListener('click', (event) => {
+        monthID = (event.srcElement.id);
+        windChart.innerHTML = monthSelection(stationCode.TC, monthID);
+        div2.appendChild(windChart);
+      });
+
+      windJuly.addEventListener('click', (event) => {
+        monthID = (event.srcElement.id);
+        windChart.innerHTML = monthSelection(stationCode.TC, monthID);
+        div2.appendChild(windChart);
+      });
+
+      windAugust.addEventListener('click', (event) => {
+        monthID = (event.srcElement.id);
+        windChart.innerHTML = monthSelection(stationCode.TC, monthID);
+        div2.appendChild(windChart);
+      });
+
+      windSeptember.addEventListener('click', (event) => {
+        monthID = (event.srcElement.id);
+        windChart.innerHTML = monthSelection(stationCode.TC, monthID);
+        div2.appendChild(windChart);
+      });
+
+      windOctober.addEventListener('click', (event) => {
+        monthID = (event.srcElement.id);
+        windChart.innerHTML = monthSelection(stationCode.TC, monthID);
+        div2.appendChild(windChart);
+      });
+
+      windNovember.addEventListener('click', (event) => {
+        monthID = (event.srcElement.id);
+        windChart.innerHTML = monthSelection(stationCode.TC, monthID);
+        div2.appendChild(windChart);
+      });
+
+      windDecember.addEventListener('click', (event) => {
+        monthID = (event.srcElement.id);
+        windChart.innerHTML = monthSelection(stationCode.TC, monthID);
+        div2.appendChild(windChart);
+      });
+
+
+    });
+/*
+      //windChart.innerHTML = "";
+      console.log('ça marche');
+      var newID = button1.id;
+      console.log(button1.id)
+
+      windChart.innerHTML = monthSelection(stationCode.TC, newID);
+      console.log('fonction done')
+      console.log(stationCode.TC)
+      div2.appendChild(windChart);
+      console.log('check')
+    });
+*/
+    var button2 = document.createElement("button");
+    button2.id = "periodSelector"
+    button2.innerHTML = "Sélectionner la période";
+  
+    div2.appendChild(button2);
+
+
+
+    document.getElementById("windChartID").innerHTML = "La rose des vents est actuellement disponible pour YUL uniquement"
 
     
-    
-    
-    
-    document.getElementById("windChartID").innerHTML = "La rose des vents est actuellement disponible pour YUL uniquement"
+
+
+
   });
 
 
 
-    button1.addListener("click", (event) => {
-      monthID = button1.id;
-      windChart.innerHTML = myChart;
-      console.log("process");
-    });
 
 
 
