@@ -314,17 +314,6 @@ function retrieveData(stationID, variable) {
   
   // Create array with all variables
   function selectPeriod(dataArray, periodArray, monthOrPeriod) {
-
-
-    console.log('dataArray')
-    console.log(dataArray)
-
-
-    console.log('periodArray')
-    console.log(periodArray)
-
-
-
   
   
       let periodDataArray = []
@@ -334,33 +323,40 @@ function retrieveData(stationID, variable) {
 
 
       
-    monthOrPeriod = '2'
-  
+    
+        console.log(monthOrPeriod)
+        console.log(typeof monthOrPeriod)
         // Construct periods of data
 
-      if (monthOrPeriod == '1' || '2' || '3' || '4' || '5' || '6' || '7' || '8' || '9' || '10' || '11' || '12') {
+      if (monthOrPeriod == '1' || monthOrPeriod == '2' || monthOrPeriod == '3' || monthOrPeriod == '4' || monthOrPeriod == '5' || monthOrPeriod == '6' || monthOrPeriod == '7' || monthOrPeriod == '8' || monthOrPeriod == '9' || monthOrPeriod == '10' || monthOrPeriod == '11' || monthOrPeriod == '12') {
       periodDataArray = periodDataArray.filter((x) => x[1] === Number(monthOrPeriod));
       periodDataArray = periodDataArray.map(x => x[0]);
+      console.log('reussi')
+      console.log(monthOrPeriod)
 
-      } else if (monthOrPeriod === 'year') {
+      } else if (monthOrPeriod == 'year') {
       
         periodDataArray = periodDataArray.map(x => x[0]);
+        console.log('autre')
       }
-      else if (monthOrPeriod === 'winter') {
+      else if (monthOrPeriod == 'winter') {
         periodDataArray = periodDataArray.filter((x) => x[1] === 1 || x[1] === 2 || x[1] === 3);
         periodDataArray = periodDataArray.map(x => x[0]);
       }
-      else if (monthOrPeriod === 'spring') {
+      else if (monthOrPeriod == 'spring') {
         periodDataArray = periodDataArray.filter((x) => x[1] === 4 || x[1] === 5 || x[1] === 6);
         periodDataArray = periodDataArray.map(x => x[0]);
       }
-      else if (monthOrPeriod === 'summer') {
+      else if (monthOrPeriod == 'summer') {
         periodDataArray = periodDataArray.filter((x) => x[1] === 7 || x[1] === 8 || x[1] === 9);
         periodDataArray = periodDataArray.map(x => x[0]);
       }
-      else if (monthOrPeriod === 'fall') {
+      else if (monthOrPeriod == 'fall') {
         periodDataArray = periodDataArray.filter((x) => x[1] === 10 || x[1] === 11 || x[1] === 12);
         periodDataArray = periodDataArray.map(x => x[0]);
+      }
+      else {
+        console.log('else')
       }
 
 
@@ -385,11 +381,7 @@ function retrieveData(stationID, variable) {
 
   function windGraphic (windDirectionArray, windSpeedArray) {
 
-    console.log('windDirectionArray')
-    console.log(windDirectionArray)
-    console.log('windSpeedArray')
-    console.log(windSpeedArray)
-
+ 
     
       
       function createWindData(degree) {
@@ -399,9 +391,7 @@ function retrieveData(stationID, variable) {
           mergedWind.push([windDirectionArray[i], windSpeedArray[i]]);  // vérifier par rapport à ce que j'avais avant (windDirectionArray[i], windSpeedArray[i])
         }
 
-        console.log('mergedWind')
-        console.log(mergedWind)
-
+      
         const arrayLength = mergedWind.length
 
         const degreesNum = mergedWind.filter((x) => x[0] === degree);  // Keeping only rows that match a specific direction 
