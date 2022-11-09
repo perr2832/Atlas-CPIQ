@@ -53,6 +53,11 @@ body {
 }
 
 
+#custom-select {
+  visibility: hidden;
+}
+
+
 .container {
     font-size: 10px;
 }
