@@ -1,7 +1,7 @@
 console.log("VS_test")
 
 //import {test} from "./stats.js";
-import { retrieveData, windGraphic, selectPeriod, yearSelection } from "./stats.js";
+import { retrieveData, windGraphic, selectPeriod, yearSelection, getVerif, statVerif } from "./stats.js";
 
 let map, infoWindow;
 initMap();
@@ -667,7 +667,7 @@ function initMap() {
       });
   }
 
-  makeWindGraph (monthOrPeriod);
+  makeWindGraph(monthOrPeriod);
   
     
 
@@ -807,6 +807,11 @@ function initMap() {
 
 
 
+
+
+
+
+
  
   
     
@@ -845,6 +850,43 @@ function initMap() {
   }
 
 */
+
+console.log('testVerif')
+let verifFile = './data/verif/JSON/CWUL.json' 
+let verifVariable = 'Crit�re atteint'
+
+
+function critereAtteint () {
+  let verifArray = getVerif(verifFile, verifVariable);
+  console.log(verifArray)
+}
+
+let verifArray = getVerif(verifFile, verifVariable);
+  console.log(verifArray)
+
+
+//console.log(newVariables[0])
+
+/*
+async function asyncCall() {
+  console.log('calling');
+  const result = await getVerif(verifFile);
+  console.log(result);
+  // expected output: "resolved"
+}
+
+asyncCall();
+*/
+
+//let { array_WX, array_Fin, array_Date, array_rgn, array_WX2, array_Cote, array_Vigie, array_Source, array_Fin2, array_texte, array_Faible, array_Cote2, array_WOCN, array_Dateconvertie, array_Critereatteint, array_Debut, array_Debut2, array_Details, array_Extreme, array_Moderee, array_Preavis, array_Region, array_Termine, array_Elevee, array_Emis, array_Evenementsdetail, array_ImpactsCommentaires, arrayNiveaudImpact, array_WXconvertie, array_WXconvImpacts } = getVerif(verifFile)
+
+
+
+
+
+
+
+//statVerif(array_WX)
 
 
 google.maps.event.addEventListener(window, "load", initMap);

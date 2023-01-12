@@ -437,10 +437,7 @@ function retrieveData(stationID, variable) {
     // Loop the functions for every 360 degrees with an increment of 10
     
     for (var i = 1; i < 37; i++) { 
-      
       window["percent" + i] = createWindData(i);
-      
-        
     }; 
     
     console.log('percent1')
@@ -750,6 +747,105 @@ finalResult2.forEach(function(e) {
     })
 };
 
+
+function getVerif(verifFile, verifVariable) {
+  return new Promise(function (resolve, reject){
+
+
+
+  console.log(verifFile)
+  fetch(verifFile)
+    .then((response) => response.json())
+    
+    .then((json) => {
+
+
+
+
+/*
+      for (let i in json) {
+        json[i]['Critereatteint'] = json[i]['Crit�re atteint']
+        json[i]['Debut'] = json[i]['D�but']
+        json[i]['Debut2'] = json[i]['D�but2']
+        json[i]['Details'] = json[i]['D�tails']
+        json[i]['Extreme'] = json[i]['Extr�me']
+        json[i]['Moderee'] = json[i]['Mod�r�e']
+        json[i]['Preavis'] = json[i]['Pr�avis']
+        json[i]['Region'] = json[i]['R�gion']
+        json[i]['Termine'] = json[i]['Termin�']
+        json[i]['Elevee'] = json[i]['�lev�e']
+        json[i]['Emis'] = json[i]['�mis']
+        json[i]['Evenementsdetails'] = json[i]['�v�nements (d�tails)']
+
+
+        json[i]['Dateconvertie'] = json[i]['Date convertie']
+        json[i]['ImpactsCommentaires'] = json[i]['Impacts/Commentaires']
+        json[i]['NiveaudImpact'] = json[i]['Niveau d\'impact']
+        json[i]['WXconvertie'] = json[i]['WX convertie']
+        json[i]['WXconvImpacts'] = json[i]['WX conv. Impacts']
+
+
+        delete json[i]['Crit�re atteint']
+        delete json[i]['D�but']
+        delete json[i]['D�but2']
+        delete json[i]['D�tails']
+        delete json[i]['Extr�me']
+        delete json[i]['Mod�r�e']
+        delete json[i]['Pr�avis']
+        delete json[i]['R�gion']
+        delete json[i]['Termin�']
+        delete json[i]['�lev�e']
+        delete json[i]['�mis']
+        delete json[i]['�v�nements (d�tails)']
+        
+        delete json[i]['Date convertie']
+        delete json[i]['Impacts/Commentaires']
+        delete json[i]['Niveau d\'impact']
+        delete json[i]['WX convertie']
+        delete json[i]['WX conv. Impacts']
+      }
+*/
+
+
+console.log(json)
+
+
+      let verifArray = []
+      console.log('verifVariable')
+      console.log(verifVariable)
+
+      for (let i = 0; i < json.length; i++) {
+        verifArray += json[i][verifVariable] + ","
+      }
+      verifArray = verifArray.split(",")
+      console.log('verifArray')
+      console.log(verifArray)
+
+    resolve(verifArray)
+    reject("error")
+
+    });
+  });
+};
+
+
+
+function statVerif (array) {
+  array = array.split(",")
+  let counts = {}
+  for (let num of array) {
+    counts[num] = counts[num] ? counts[num] + 1: 1;
+    console.log('coucou')
+    console.log(counts)
+
+    //if (array = array_WX) {
+     // console.log()
+   // }
+  }
+}
+
+
+//window["percent" + i] = createWindData(i);
   
-  export { retrieveData, windGraphic, selectPeriod, yearSelection }
+  export { retrieveData, windGraphic, selectPeriod, yearSelection, getVerif, statVerif }
   
