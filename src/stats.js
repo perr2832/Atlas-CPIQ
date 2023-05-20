@@ -21,7 +21,7 @@ function yearSelection(yearID) {
 
   
       // Generate an array of strings
-      data_array = data_string.split(",")
+      var data_array = data_string.split(",")
   
   
       // Array to use for graphs and not for stats (NaNs do not work in stats)
@@ -46,9 +46,6 @@ function yearSelection(yearID) {
       }
       indexes.forEach(myFunction);
   
-      console.log("data_array2")
-      console.log(data_array)
-  
       
   
       // Array to use for stats and not graphs (NaNs are removed and it changes the index/value order)
@@ -56,7 +53,7 @@ function yearSelection(yearID) {
   
       
       // // Generate an array of numbers
-      arrOfNum = data_array.map(str => {
+      var arrOfNum = data_array.map(str => {
           return Number(str);
       })
   
@@ -97,10 +94,10 @@ function yearSelection(yearID) {
   
   
       // Generate an array of strings
-      monthNum = month.split(",");
+      var monthNum = month.split(",");
   
       // Generate an array of numbers
-      monthArray = monthNum.map(str => {
+      var monthArray = monthNum.map(str => {
           return Number(str);
       });
   
@@ -174,67 +171,253 @@ function yearSelection(yearID) {
   
   
   
-  
-  
-      
-  
       // Graphic (Chart.js)
   
-  
-      let chartStatus = Chart.getChart("myChart"); // <canvas> id
+  /*
+      let chartStatus = Chart.getChart("analyseCanvas"); // <canvas> id
       if (chartStatus != undefined) {
           chartStatus.destroy();
       }
       
-      const labels = Object.keys(january)
-      const data = {
-          labels: labels,
-          datasets: [{
-              label: "temp",
-              backgroundColor: 'rgb(255, 99, 132)',
-              data: january,
-          }]
-      }
-  
-      const config = {
-          type: "line",
-          data: data,
-          options: {}
-      };
-  
-      const mtChart = new Chart(
-          document.getElementById("myChart"),
-          config
-      );
+      */
+
   });
   };
 
 
 
-function retrieveData(stationID, variable) {
-  return new Promise(function (resolve, reject){
+function makeGraphic(allData) {
+  let labels = Object.keys(allData)
+  labels = labels.map(str => {
+    return Number(str) + 1;
+})
+
+
+  const data = {
+      labels: labels,
+      datasets: [{
+          label: "temp",
+          backgroundColor: 'rgb(255, 0, 0)',
+          borderColor: 'rgb(255, 0, 0)',
+          data: allData,
+          tension: 0.4,
+          fill: {
+            target: 'origin',
+            below: 'rgb(0, 0, 255)',
+            above: 'rgb(255, 0, 0)'
+          }               
+      }]
+  }
+
+  const config = {
+      type: "line",
+      data: data,
+      options: {
+        responsive: false
+      }
+  };
+
+  new Chart(
+    document.getElementById("analyseCanvas"),
+    config
+  );
+};
+
+
+function makePie(dataArray) {
+
+
+  const data = {
+      labels: ['D', 'MF', 'Mpi', 'MT', 'MA', 'Mp0', 'F', 'U', 'i'],
+      datasets: [{
+          label: "temp",
+          backgroundColor: [
+            'rgb(0, 0, 120)',
+            'rgb(0, 0, 160)',
+            'rgb(0, 0, 200)',
+            'rgb(0, 0, 240)',
+            'rgb(200, 0, 0)',
+            'rgb(240, 0, 0)',
+            'rgb(0, 200, 0)',
+            'rgb(0, 240, 0)',
+            'rgb(200, 200, 200)',
+          ],
+          data: dataArray,   
+          datalabels: {
+            anchor: 'end',
+            align: 'end',
+          }            
+      }]
+  }
+
+  const config = {
+      type: "pie",
+      
+      data: data,
+      options: {
+        responsive: false,
+        plugins: {
+          legend: {
+            display: true,
+            anchor: 'end',
+            align: 'end',
+            color: 'rgb(0, 240, 0)',
+            backgroundColor: 'rgba(200, 0, 0, 0.75)',
+            formatter: value => `${Math.round(value / sum * 100)}%`,
+            labels: {
+              color: 'rgb(255, 99, 132)',
+              title: {
+                font: {
+                  size: 14,
+                  weight: 'bold'
+                }
+              }
+            }
+          }
+        }
+      }
+  };
+
+
+  new Chart(
+    document.getElementById("analyseCanvas"),
+    config
+  );
+};
+
+
+
+
+async function getXMLinfo(modelVariable) {
+  const parser = new DOMParser();
+
+  let response = await fetch(`https://geo.weather.gc.ca/geomet/?LANG=en&SERVICE=WMS&VERSION=1.3.0&REQUEST=GetCapabilities&LAYERS=${modelVariable}`)
+  let data = await response.text().then(
+    data => {
+      let xml = parser.parseFromString(data, 'text/xml');
+      console.log("INFO")
+      console.log(xml.getElementsByTagName('Dimension')[0].innerHTML.split('/'))
+      let [start, end, timestep] = xml.getElementsByTagName('Dimension')[0].innerHTML.split('/');
+      console.log(start)
+      console.log(end)
+      console.log(timestep)
+
+      let default_ = xml.getElementsByTagName('Dimension')[0].getAttribute('default');
+      return [start, end, timestep, default_];
+    }
+  )
 
   
-    
+  return [new Date(data[0]), new Date(data[1]), data[2], new Date(data[3])];
   
+}
+
+
+
+
+
+function updateLayers(layer, currentTime) {
+  layer.getSource().updateParams({'TIME': currentTime.toISOString().split('.')[0]+"Z"});
+}
+
+
+
+
+function setTime() {
+  currentTime = new Date(currentTime);
+  currentTime.setHours(currentTime.getHours() + timestep);
+  updateLayers();
+}
+
+
+function setBackTime() {
+  if (currentTime >= endTime) {
+    currentTime = endTime;
+  } else {
+    currentTime = new Date(currentTime);
+    currentTime.setHours(currentTime.getHours() - timestep);
+  }
+  updateLayers();
+}
+
+
+function stepForward(layer, layerName, currentTime) {
+  getXMLinfo(layerName).then((data) => {
+    let startTime = data[0];
+    let endTime = data[1];
+    let preTimeStep = data[2];
+    let defautTime = data[3];
+
+    let timeStepString = preTimeStep.replace(/[^\d]/g,'');
+    let timestep = parseInt(timeStepString);
+
+    if (currentTime < endTime || currentTime == null) {
+      currentTime = new Date(currentTime);
+      currentTime.setHours(currentTime.getHours() + timestep);
+      updateLayers(layer, currentTime);
+      console.log("LKLKL")
+      console.log(currentTime)
+    } else {
+      currentTime = currentTime
+    }
+  })
+
+
+}
+
+
+function stepBackward(modelVariable) {
+  getXMLinfo(modelVariable).then((data) => {
+    startTime = data[0];
+    endTime = data[1];
+    preTimeStep = data[2];
+    timeStepString = preTimeStep.replace(/[^\d]/g,'');
+
+    if (currentTime > startTime) {
+      currentTime = new Date(currentTime);
+      currentTime.setHours(currentTime.getHours() - timestep);
+      updateLayers();
+    } else {
+      currentTime = currentTime
+    }
+  })
+}
+
+
+
+
+
+
+function retrieveData(stationID, variable, firstYear, lastYear) {
+  return new Promise(function (resolve, reject) {
+
   
   //let monthOrPeriod = event.target.id;
   
   
-  
   // Construct array of path to data files
+  let yeardifference = lastYear - firstYear
+  yeardifference = yeardifference + 1
+
+ 
   
-  let startYear = 2002 //Correspond to oldest year of data files
-  let allYears = Array.from(Array(20).keys())
+  //let startYear = 2002 //Correspond to oldest year of data files
+  
+  //let myString = myString.replace(/\D/g,'');
+  let allYears = Array.from(Array(yeardifference).keys())
+
   let period = []
+ 
+
   for (var i = 0; i < allYears.length; i++) {
-      period += allYears[i] + startYear + ","
+      period += Number(allYears[i]) + Number(firstYear) + ","
   }
+ 
   
   // Create array of strings
   period = period.split(",")
   period = period.splice(0, period.length-1); // Remove the last empty item due to "," in the for loop
-  
+
   
   // Create array of numbers
   period = period.map(str => {
@@ -243,17 +426,20 @@ function retrieveData(stationID, variable) {
   
   
   
-  
   let urls = []
   for (var i = 0; i < period.length; i++) {
-    urls += `./data/${stationID} ${period[i]}_EN.json` + ','
+    urls += `./data/meteo/${stationID}/${stationID} ${period[i]}_EN.json` + ','
   }
+
+  // utiliser NODE.JS/ require pour acceder aux fichiers
+ 
+
   
   urls = urls.split(",")
   urls = urls.splice(0, urls.length-1);
-  
-  
 
+  
+  
   
   
   // // Load geoJSON data from every files
@@ -266,7 +452,7 @@ function retrieveData(stationID, variable) {
   
   
   
-  // Test pour mettre la recherche d'une variable dans une fontion //
+  // Test pour mettre la recherche d'une variable dans une fonction //
     
   
       let dataArray = []
@@ -274,6 +460,9 @@ function retrieveData(stationID, variable) {
         dataArray += x[variable] + "," 
       }
       dataArray = dataArray.split(",")
+      dataArray = dataArray.splice(0, dataArray.length-1);
+
+
 
       function getAllIndexes(arr, val) {
         var dataIndexes = [], i;
@@ -282,6 +471,7 @@ function retrieveData(stationID, variable) {
             dataIndexes.push(i);
         return dataIndexes;
       }
+
 
 
 
@@ -304,61 +494,193 @@ function retrieveData(stationID, variable) {
     });
 
   });
-  };
+};
 
 
+
+
+function retrieveAdvData(stName, wx) {
+  return new Promise(function (resolve, reject){
+
+    fetch("data/avertissements/alldata.json")
+    .then(response => response.json())
+    .then(data => {
+      console.log("dataaaaaaaaaaaaaaaaaaaa")
+      console.log(data)
 
  
+
+
+      let dataPerSt = []
+      for (let x of data) {
+        if (x['rgn'] == stName) {
+          dataPerSt.push(x)
+        }
+      }
+
+
+    
+
+      let wxArray = []
+      for (let x of dataPerSt) {
+        if (x['WX'] == wx) {
+          wxArray.push(x)
+        } 
+      }
+
+
+
+      let cote = []
+      for (let x of wxArray) {
+        cote.push(x['Cote'])
+      }
+
+      const counts = {};
+
+      for (const num of cote) {
+        counts[num] = counts[num] ? counts[num] + 1 : 1;
+      }
+
+      console.log(counts)
+
+      let D = counts['D']
+      let F = counts['F']
+      let MA = counts['MA']
+      let MP0 = counts['MP0']
+      let Mpi = counts['Mpi']
+      let MT = counts['MT']
+      let MQ = counts['MQ']
+      let U = counts['U']
+      let i = counts['i']
+
+      D = D || 0
+      F = F || 0
+      MA = MA || 0
+      MP0 = MP0 || 0
+      Mpi = Mpi || 0
+      MT = MT || 0
+      MQ = MQ || 0
+      U = U || 0
+      i = i || 0 
+
+
+      let succes = D + MQ + Mpi + MT
+      let manque = MA + MP0
+
+      let POD = succes/(succes + manque)
+
+      let fausseAlerte = F + U
       
+      let FAR = fausseAlerte/(succes + fausseAlerte)
+
+
+      let coteArray = [D, MQ, Mpi, MT, MA, MP0, F, U, i]
+
+
+
+      console.log('PREMIER TEST')
+      console.log(coteArray)
+
+
+     
+      resolve(coteArray)
+      reject("error")
+
+    });
+  });
+};
+
+
+
+
+
+
+
+
+    function selectFullPeriod(years, months, days, dataArray, periodSelected) {
   
   
-  // Create array with all variables
-  function selectPeriod(dataArray, periodArray, monthOrPeriod) {
-  
-  
+
       let periodDataArray = []
       for ( var i = 0; i < dataArray.length; i++ ) {
-        periodDataArray.push([dataArray[i], periodArray[i]]);
-        }
-
-
-      
+        periodDataArray.push([years[i], months[i], days[i], dataArray[i]]);
+        };
     
-        console.log(monthOrPeriod)
-        console.log(typeof monthOrPeriod)
-        // Construct periods of data
 
-      if (monthOrPeriod == '1' || monthOrPeriod == '2' || monthOrPeriod == '3' || monthOrPeriod == '4' || monthOrPeriod == '5' || monthOrPeriod == '6' || monthOrPeriod == '7' || monthOrPeriod == '8' || monthOrPeriod == '9' || monthOrPeriod == '10' || monthOrPeriod == '11' || monthOrPeriod == '12') {
-      periodDataArray = periodDataArray.filter((x) => x[1] === Number(monthOrPeriod));
-      periodDataArray = periodDataArray.map(x => x[0]);
-      console.log('reussi')
-      console.log(monthOrPeriod)
 
-      } else if (monthOrPeriod == 'year') {
-      
-        periodDataArray = periodDataArray.map(x => x[0]);
-        console.log('autre')
+      if (isNaN(Number(periodSelected[0]))) {
+        periodDataArray = periodDataArray
+      } 
+      else {
+        periodDataArray = periodDataArray.filter((x) => x[0] === Number(periodSelected[0]));
       }
-      else if (monthOrPeriod == 'winter') {
+
+
+      console.log('yearSelected')
+      console.log(periodDataArray)
+
+  
+
+
+
+      if (isNaN(Number(periodSelected[1])) && periodSelected[1]=='allmonths') {
+        periodDataArray = periodDataArray
+        console.log('1')
+      }
+      else if (isNaN(Number(periodSelected[1])) && periodSelected[1]=='winter') {
         periodDataArray = periodDataArray.filter((x) => x[1] === 1 || x[1] === 2 || x[1] === 3);
-        periodDataArray = periodDataArray.map(x => x[0]);
+        console.log('2')
+
       }
-      else if (monthOrPeriod == 'spring') {
+      else if (isNaN(Number(periodSelected[1])) && periodSelected[1]=='spring') {
         periodDataArray = periodDataArray.filter((x) => x[1] === 4 || x[1] === 5 || x[1] === 6);
-        periodDataArray = periodDataArray.map(x => x[0]);
+        console.log('3')
+
       }
-      else if (monthOrPeriod == 'summer') {
+      else if (isNaN(Number(periodSelected[1])) && periodSelected[1]=='summer') {
         periodDataArray = periodDataArray.filter((x) => x[1] === 7 || x[1] === 8 || x[1] === 9);
-        periodDataArray = periodDataArray.map(x => x[0]);
+        console.log('4')
+
       }
-      else if (monthOrPeriod == 'fall') {
+      else if (isNaN(Number(periodSelected[1])) && periodSelected[1]=='fall') {
         periodDataArray = periodDataArray.filter((x) => x[1] === 10 || x[1] === 11 || x[1] === 12);
-        periodDataArray = periodDataArray.map(x => x[0]);
+        console.log('5')
+
       }
       else {
-        console.log('else')
+        periodDataArray = periodDataArray.filter((x) => x[1] === Number(periodSelected[1]));
+        console.log('6')
+
       }
 
+
+
+
+      console.log('monthSelected')
+      console.log(periodDataArray)
+
+
+
+
+      if (isNaN(Number(periodSelected[2]))) {
+        periodDataArray = periodDataArray
+      } 
+      else {
+        periodDataArray = periodDataArray.filter((x) => x[2] === Number(periodSelected[2]));
+      //  periodDataArray = periodDataArray.map(x => x[0]);
+      } 
+     
+
+
+
+      console.log('daySelected')
+      console.log(periodDataArray)
+
+
+      periodDataArray = periodDataArray.map(x => x[3]);
+
+      console.log('finalArray')
+      console.log(periodDataArray)
 
 
       return periodDataArray
@@ -440,14 +762,7 @@ function retrieveData(stationID, variable) {
       window["percent" + i] = createWindData(i);
     }; 
     
-    console.log('percent1')
-    console.log(percent1)
-
-    console.log('percent2')
-    console.log(percent2)
-
-    console.log('percent3')
-    console.log(percent3)
+   
 
 
 
@@ -509,25 +824,26 @@ function retrieveData(stationID, variable) {
 
 
       function renderChart(data) { 
-        let myChart =  JSC.chart('windChartID', {         // remettre 'toggles' si je veux que ça prenne toute la place dans le 'div' 'toggles'
+        let myChart =  JSC.chart('toggles', {         // remettre 'toggles' si je veux que ça prenne toute la place dans le 'div' 'toggles'
           debug: true, 
           type: 'radar column', 
           animation_duration: 1000, 
           title: { 
             label_text: 'Rose des vents', 
             position: 'center',
+            
           }, 
           legend: { 
             title_label_text: 'Vitesse des rafales (en km/h)', 
             position: 'bottom', 
             template: '%icon %name', 
-            reversed: true
+            reversed: true,
           }, 
           annotations: [ 
             { 
               label: { 
                 text: '', 
-                style_fontSize: 14 
+                style_fontSize: 10 
               }, 
               position: 'inside bottom right'
             } 
@@ -559,6 +875,7 @@ function retrieveData(stationID, variable) {
             '#80cbc4', 
             '#bbdefb'
           ], 
+          
           defaultPoint: { 
             tooltip: 
               '<b>%seriesName</b> %xValue° %yValue%'
@@ -847,5 +1164,5 @@ function statVerif (array) {
 
 //window["percent" + i] = createWindData(i);
   
-  export { retrieveData, windGraphic, selectPeriod, yearSelection, getVerif, statVerif }
+export { makeGraphic, makePie, getXMLinfo, updateLayers, stepForward, stepBackward, retrieveData, retrieveAdvData, windGraphic, selectFullPeriod, yearSelection, getVerif, statVerif }
   
