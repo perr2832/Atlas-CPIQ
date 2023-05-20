@@ -502,7 +502,7 @@ function retrieveData(stationID, variable, firstYear, lastYear) {
 function retrieveAdvData(stName, wx) {
   return new Promise(function (resolve, reject){
 
-    fetch("data/avertissements/alldata.json")
+    fetch("data/warning/alldata.json")
     .then(response => response.json())
     .then(data => {
       console.log("dataaaaaaaaaaaaaaaaaaaa")
