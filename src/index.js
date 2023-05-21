@@ -1939,6 +1939,19 @@ console.log(map.styles[0].elementType)
 
 
 
+
+let goStartBtn = document.getElementById("goStartBtn")
+let preStepBtn = document.getElementById("preStepBtn")
+let nextStepBtn = document.getElementById("nextStepBtn")
+let goEndBtn = document.getElementById("goEndBtn")
+let timeSelector = document.getElementById("timeSelector")
+let selectLayer = document.getElementById("selectLayer")
+//let map2 = document.getElementById("map2")
+let geometLayers = 'off'
+
+
+
+
 var geoMetBtn = document.getElementById("geometBtn");
 geoMetBtn.addEventListener('click', (event) => {
 
@@ -1946,20 +1959,26 @@ geoMetBtn.addEventListener('click', (event) => {
 
 
 
-  let map2 = document.getElementById("map2")
+  
 
 
 
 
- if (map2.style["visibility"] == "hidden") {
+ if (geometLayers == "off") {
 
-  let mapSecond = document.getElementById("map2")
-  mapSecond.style["visibility"] = "visible"
+ // let map2 = document.getElementById("map2")
+  //map2.style["visibility"] = "visible"
+  goStartBtn.style["visibility"] = "visible"
+  preStepBtn.style["visibility"] = "visible"
+  nextStepBtn.style["visibility"] = "visible"
+  goEndBtn.style["visibility"] = "visible"
+  selectLayer.style["visibility"] = "visible"
+  timeSelector.style["visibility"] = "visible"
 
   console.log("AGAAAIN")
 
   console.log('haaaaaaaaa')
-  console.log(mapSecond.style["visibility"])
+ // console.log(map2.style["visibility"])
   
 
 /*
@@ -2013,6 +2032,7 @@ closer.onclick = function () {
   return false;
 };
 
+
 let osmStandard = new ol.layer.Tile({
   source: new ol.source.OSM(),
   visible: true,
@@ -2027,7 +2047,8 @@ let GDPS_TT = new ol.layer.Tile({
   }),
   title: "surfaceTemp",
   visible: true
-});
+})
+
 
 
 let GDPS_HR = new ol.layer.Tile({
@@ -2070,17 +2091,18 @@ let layerMaps = new ol.layer.Group({
 
 console.log("layers")
 
-let map2 = new ol.Map({
-  target: "map2",
+let mapGeomet = new ol.Map({
+  target: "map",
   overlays: [overlay],
+  
   view: new ol.View({
     center: ol.proj.fromLonLat([-73.74, 45.47]),
     zoom: 7
   })
 });
 
-map2.addLayer(baseMaps)
-map2.addLayer(layerMaps)
+mapGeomet.addLayer(baseMaps)
+mapGeomet.addLayer(layerMaps)
 
 
 
@@ -2088,7 +2110,7 @@ map2.addLayer(layerMaps)
 
 
 
-let selectLayer = document.getElementById("selectLayer")
+
 selectLayer.addEventListener("change", (event) => {
   console.log("CNAHGES")
 
@@ -2098,8 +2120,39 @@ selectLayer.addEventListener("change", (event) => {
     element.setVisible(layerName === selectLayer.value)
     console.log(element)
   });
-  
 
+
+  layerMaps.getLayers().forEach(function(element, index, array) {
+  if (element.getVisible() == true) {
+    let layerName = element.getSource().getParams().LAYERS
+
+    
+  getXMLinfo(layerName).then((data) => {
+    let startTime = data[0];
+    let endTime = data[1];
+    let preTimeStep = data[2];
+    let defautTime = data[3];
+
+
+
+
+  if (currentTime == null) {
+    currentTime = defautTime
+  } else {
+    currentTime = currentTime
+  }
+  console.log('layerName')
+
+console.log(layerName)
+  console.log(currentTime)
+  console.log(element.getSource().getParams())
+
+  updateLayers(element, currentTime);
+
+
+})
+  }
+})
 
 })
 
@@ -2107,7 +2160,7 @@ selectLayer.addEventListener("change", (event) => {
 
 
 
-map2.on("singleclick", function (evt) {
+mapGeomet.on("singleclick", function (evt) {
   let coordinate = evt.coordinate;
   let xy_coordinates = ol.coordinate.toStringXY(
     ol.proj.toLonLat(evt.coordinate),
@@ -2168,12 +2221,13 @@ map2.on("singleclick", function (evt) {
 
 
 
-let goStartBtn = document.getElementById("goStartBtn")
-let preStepBtn = document.getElementById("preStepBtn")
-let nextStepBtn = document.getElementById("nextStepBtn")
-let goEndBtn = document.getElementById("goEndBtn")
+let currentTime = null;
 
 
+function selectElement(id, valueToSelect) {    
+  let element = document.getElementById(id);
+  element.value = valueToSelect;
+}
 
 
 
@@ -2181,7 +2235,7 @@ layerMaps.getLayers().forEach(function(element, index, array) {
   if (element.getVisible() == true) {
 
     let layerName = element.getSource().getParams().LAYERS
-    let currentTime = null;
+
 
     getXMLinfo(layerName).then((data) => {
       let startTime = data[0];
@@ -2200,24 +2254,30 @@ layerMaps.getLayers().forEach(function(element, index, array) {
       console.log("DAAAAAAAAAAATE")
       console.log(data)
 
-      console.log(endTime)
       console.log(startTime)
+      console.log(endTime)
       console.log(preTimeStep)
       console.log(defautTime)
 
 
 
-
+      var evoTime = new Date(data[0]);
       var el = []
 
 
       for (let i=0; i<250; i++) {
-        
-          el.push(new Date (startTime.setHours(startTime.getHours() + 3)).toISOString());
+        if (el.length === 0) {
+          el.push(evoTime.toISOString())
+        } else {
+          el.push(new Date (evoTime.setHours(evoTime.getHours() + 3)).toISOString());
+        }
         if (el[i] == endTime.toISOString()) { break; }
       }
 
       console.log("HELLS")
+
+      console.log(startTime)
+      console.log(evoTime)
 
       console.log(el)
 
@@ -2250,29 +2310,134 @@ layerMaps.getLayers().forEach(function(element, index, array) {
       console.log(timeList)
 
 
+      timeSelector.innerHTML = timeList
 
-      document.getElementById("timeSelector").innerHTML = timeList
+    })
+  }
+})
 
 
+
+timeSelector.addEventListener('change', (event) => {
+
+
+  layerMaps.getLayers().forEach(function(element, index, array) {
+    if (element.getVisible() == true) {
+
+
+  let timeSelected = new Date(timeSelector.value) 
+
+  
+
+  console.log('timeSelected')
+  console.log(timeSelected)
+
+  currentTime = timeSelected;
+
+  console.log(currentTime)
+
+  
+  
+  updateLayers(element, timeSelected);
+
+    }
+  })
+})
+
+
+
+
+
+
+      goStartBtn.addEventListener("click", (event) => {
+
+
+        layerMaps.getLayers().forEach(function(element, index, array) {
+          if (element.getVisible() == true) {
+            let layerName = element.getSource().getParams().LAYERS
+            getXMLinfo(layerName).then((data) => {
+              let startTime = data[0];
+              let endTime = data[1];
+              let preTimeStep = data[2];
+              let defautTime = data[3];
+              console.log("front")
+              console.log(element)
+              console.log('layename')
+              console.log(layerName)
+              let timeStepString = preTimeStep.replace(/[^\d]/g,'');
+              let timestep = parseInt(timeStepString);
+
+              let startTimeInZ = startTime.toISOString().split('.')[0]+"Z"
+
+              currentTime = startTime;
+
+
+        updateLayers(element, startTime);
+
+        selectElement('timeSelector', startTimeInZ);
+          })
+        }
+      })
+
+      })
+
+
+
+
+
+    
       nextStepBtn.addEventListener("click", (event) => {
+        layerMaps.getLayers().forEach(function(element, index, array) {
+          if (element.getVisible() == true) {
+            let layerName = element.getSource().getParams().LAYERS
+     
 
-        if (currentTime == null) {
-          currentTime = defautTime
-        } else {
-          currentTime = currentTime
-        }
+            getXMLinfo(layerName).then((data) => {
+              let startTime = data[0];
+              let endTime = data[1];
+              let preTimeStep = data[2];
+              let defautTime = data[3];
+              console.log("front")
+              console.log(element)
+              console.log('layename')
+              console.log(layerName)
+              let timeStepString = preTimeStep.replace(/[^\d]/g,'');
+              let timestep = parseInt(timeStepString);
 
 
-        if (currentTime < endTime) {
-          currentTime = new Date(currentTime);
-          currentTime.setHours(currentTime.getHours() + timestep);
-          updateLayers(element, currentTime);
-          console.log(currentTime)
-        } else {
-          currentTime = currentTime
-        }
+              console.log('layers')
+              console.log(GDPS_HR)
+              console.log(GDPS_TT)
+
+
+              if (currentTime == null) {
+                currentTime = defautTime
+              } else {
+                currentTime = currentTime
+              }
+
+
+              if (currentTime < endTime) {
+                currentTime = new Date(currentTime);
+                currentTime.setHours(currentTime.getHours() + timestep);
+                updateLayers(element, currentTime);
+
+              let currentTimeInZ = currentTime.toISOString().split('.')[0]+"Z"
+
+              
+              selectElement('timeSelector', currentTimeInZ);
+
+
+              } else {
+                currentTime = currentTime
+              }
+
+            })
+
+          } 
       
-       // stepForward(element, layerName, currentTime)
+        // stepForward(element, layerName, currentTime)
+        })
       })
 
 
@@ -2280,13 +2445,32 @@ layerMaps.getLayers().forEach(function(element, index, array) {
 
 
       preStepBtn.addEventListener("click", (event) => {
-        console.log("BACK")
-        console.log(defautTime)
-        console.log(startTime)
+
+        layerMaps.getLayers().forEach(function(element, index, array) {
+          if (element.getVisible() == true) {
+            let layerName = element.getSource().getParams().LAYERS
+              
+
+            getXMLinfo(layerName).then((data) => {
+              let startTime = data[0];
+              let endTime = data[1];
+              let preTimeStep = data[2];
+              let defautTime = data[3];
+              console.log("front")
+              console.log(element)
+              console.log('layename')
+              console.log(layerName)
+              let timeStepString = preTimeStep.replace(/[^\d]/g,'');
+              let timestep = parseInt(timeStepString);
+
+        console.log("back")
+
+        console.log(element)
 
 
         if (currentTime == null) {
           currentTime = defautTime
+          console.log('null')
         } else {
           currentTime = currentTime
         }
@@ -2298,13 +2482,68 @@ layerMaps.getLayers().forEach(function(element, index, array) {
           currentTime.setHours(currentTime.getHours() - timestep);
           updateLayers(element, currentTime);
           console.log(currentTime)
+          let currentTimeInZ = currentTime.toISOString().split('.')[0]+"Z"
+
+              
+          selectElement('timeSelector', currentTimeInZ);
+
+
         } else {
           currentTime = currentTime
         console.log("else")
+        console.log(currentTime)
+        console.log(startTime)
 
         }
+
+
+      })
+
+      } 
+
+      // stepForward(element, layerName, currentTime)
+      })
       
       })
+
+
+
+      goEndBtn.addEventListener("click", (event) => {
+
+
+        layerMaps.getLayers().forEach(function(element, index, array) {
+          if (element.getVisible() == true) {
+            let layerName = element.getSource().getParams().LAYERS
+            getXMLinfo(layerName).then((data) => {
+              let startTime = data[0];
+              let endTime = data[1];
+              let preTimeStep = data[2];
+              let defautTime = data[3];
+              console.log("front")
+              console.log(element)
+              console.log('layename')
+              console.log(layerName)
+              let timeStepString = preTimeStep.replace(/[^\d]/g,'');
+              let timestep = parseInt(timeStepString);
+
+              let endTimeInZ = endTime.toISOString().split('.')[0]+"Z"
+              currentTime = endTime;
+
+
+        updateLayers(element, endTime);
+
+        selectElement('timeSelector', endTimeInZ);
+          })
+        }
+      })
+
+      })
+
+
+
+
+
+
       
 
 
@@ -2312,29 +2551,30 @@ layerMaps.getLayers().forEach(function(element, index, array) {
      // console.log("TIIIME")
 
 
-    })
-  }
-})
+console.log('1')
+console.log(geometLayers)
+
+geometLayers = 'on'
+
+console.log('2')
+console.log(geometLayers)
+
+console.log(mapGeomet)
 
 
-
-goStartBtn.addEventListener("click", (event) => {
-  console.log("1")
-  console.log(GDPS_TT.getSource().getParams())
-  GDPS_TT.getSource().params_.TIME = "2023-05-12T15:00:00Z"
-  console.log("2")
-  console.log(GDPS_TT.getSource().params_)
-})
-
-
-
-
-
-
- } else if (map2.style["visibility"] == "visible") {
+ } else if (geometLayers == "on") {
+  console.log(mapGeomet)
 
   console.log("Thisishidden")
-  map2.style["visibility"] = "hidden"
+  mapGeomet.style["visibility"] = "hidden"
+  goStartBtn.style["visibility"] = "hidden"
+  preStepBtn.style["visibility"] = "hidden"
+  nextStepBtn.style["visibility"] = "hidden"
+  goEndBtn.style["visibility"] = "hidden"
+  selectLayer.style["visibility"] = "hidden"
+  timeSelector.style["visibility"] = "hidden"
+  geometLayers = 'off'
+
 
  }
 
@@ -2372,7 +2612,6 @@ asyncCall();
 
 google.maps.event.addEventListener(window, "load", initMap);
 }
-
 
 
 
